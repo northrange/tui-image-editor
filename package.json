@@ -1,22 +1,21 @@
 {
-  "name": "tui-image-editor",
-  "author": "NHN FE Development Lab <dl_javascript@nhn.com>",
-  "version": "3.9.0",
+  "name": "@northrange/tui-image-editor",
+  "author": "northrange IT solutions",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nhn/tui.image-editor.git"
+    "url": "https://github.com/northrange/tui-image-editor.git"
   },
-  "main": "dist/tui-image-editor.js",
+  "main": "dist/@northrange/tui-image-editor.js",
   "files": [
     "src",
     "dist",
     "index.d.ts"
   ],
-  "description": "TOAST UI Component: ImageEditor",
+  "description": "Fork of TUI ImageEditor",
   "keywords": [
-    "nhn",
-    "nhnent",
+    "northrange",
     "tui",
     "component",
     "image",
