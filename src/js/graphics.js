@@ -607,11 +607,20 @@ class Graphics {
     }
 
     /**
-     * Get cropped rect
+     * Sets the cropped rect on the image, using the maximally available amount of space.
      * @param {number} [mode] cropzone rect mode
      */
     setCropzoneRect(mode) {
         this.getComponent(components.CROPPER).setCropzoneRect(mode);
+    }
+
+    /**
+     * Update the cropped rect on the image, using the provided mode and respecting the boundaries of the current cropzone rect (i.e. the new cropzone rect is
+     * always within the boundaries of the current cropzone rect).
+     * @param {number} [mode] cropzone rect mode
+     */
+    updateCropzoneRect(mode) {
+        this.getComponent(components.CROPPER).updateCropzoneRect(mode);
     }
 
     /**
@@ -988,9 +997,9 @@ class Graphics {
      */
     _onObjectAdded(fEvent) {
         const obj = fEvent.target;
-        if (obj.isType('cropzone')) {
-            return;
-        }
+        // if (obj.isType('cropzone')) {
+        //     return;
+        // }
 
         this._addFabricObject(obj);
     }

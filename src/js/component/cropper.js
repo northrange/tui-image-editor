@@ -6,7 +6,7 @@ import snippet from 'tui-code-snippet';
 import fabric from 'fabric';
 import Component from '../interface/component';
 import Cropzone from '../extension/cropzone';
-import {keyCodes, componentNames, CROPZONE_DEFAULT_OPTIONS} from '../consts';
+import {eventNames as events, keyCodes, componentNames, CROPZONE_DEFAULT_OPTIONS} from '../consts';
 import {clamp, fixFloatingPoint} from '../util';
 
 const MOUSE_MOVE_THRESHOLD = 10;
@@ -51,6 +51,13 @@ class Cropper extends Component {
         this._startY = null;
 
         /**
+         * Fixed aspect ratio of Cropzone
+         * @type {number}
+         * @private
+         */
+        this._fixedAspectRatio = null;
+
+        /**
          * State whether shortcut key is pressed or not
          * @type {boolean}
          * @private
@@ -85,8 +92,8 @@ class Cropper extends Component {
         });
 
         this._cropzone = new Cropzone(canvas, snippet.extend({
-            left: 0,
-            top: 0,
+            left: -1,
+            top: -1,
             width: 0.5,
             height: 0.5,
             strokeWidth: 0, // {@link https://github.com/kangax/fabric.js/issues/2860}
@@ -139,6 +146,15 @@ class Cropper extends Component {
         }
     }
 
+    selectCropzoneRect() {
+        const canvas = this.getCanvas();
+        const cropzone = this._cropzone;
+
+        canvas.remove(cropzone);
+        canvas.add(cropzone);
+        canvas.setActiveObject(cropzone);
+    }
+
     /**
      * onMousedown handler in fabric canvas
      * @param {{target: fabric.Object, e: MouseEvent}} fEvent - Fabric event
@@ -148,6 +164,8 @@ class Cropper extends Component {
         const canvas = this.getCanvas();
 
         if (fEvent.target) {
+            this.selectCropzoneRect();
+
             return;
         }
 
@@ -180,6 +198,8 @@ class Cropper extends Component {
 
             canvas.add(cropzone);
             canvas.setActiveObject(cropzone);
+
+            cropzone.canvasEventTrigger[events.OBJECT_SCALED](cropzone);
         }
     }
 
@@ -196,26 +216,14 @@ class Cropper extends Component {
         const canvasHeight = canvas.getHeight();
         const startX = this._startX;
         const startY = this._startY;
-        let left = clamp(x, 0, startX);
-        let top = clamp(y, 0, startY);
-        let width = clamp(x, startX, canvasWidth) - left; // (startX <= x(mouse) <= canvasWidth) - left
-        let height = clamp(y, startY, canvasHeight) - top; // (startY <= y(mouse) <= canvasHeight) - top
 
-        if (this._withShiftKey) { // make fixed ratio cropzone
-            if (width > height) {
-                height = width;
-            } else if (height > width) {
-                width = height;
-            }
+        let width = Math.max(Math.abs(clamp(x, startX, x >= startX ? canvasWidth : 0) - startX), 1);
+        let height = Math.max(Math.abs(clamp(y, startY, y >= startY ? canvasHeight : 0) - startY), 1);
 
-            if (startX >= x) {
-                left = startX - width;
-            }
+        [width, height] = this._ensureRectDimensionIsInBoundary(x, y, width, height);
 
-            if (startY >= y) {
-                top = startY - height;
-            }
-        }
+        const left = x >= startX ? startX : startX - width;
+        const top = y >= startY ? startY : startY - height;
 
         return {
             left,
@@ -223,6 +231,32 @@ class Cropper extends Component {
             width,
             height
         };
+    }
+
+    _ensureRectDimensionIsInBoundary(x, y, width, height) {
+        const canvas = this.getCanvas();
+        const canvasWidth = canvas.getWidth();
+        const canvasHeight = canvas.getHeight();
+        const startX = this._startX;
+        const startY = this._startY;
+        const maxWidth = Math.abs((x >= startX ? canvasWidth : 0) - startX);
+        const maxHeight = Math.abs((y >= startY ? canvasHeight : 0) - startY);
+
+        if (this._fixedAspectRatio) {
+            const currentAspect = fixFloatingPoint(width / height);
+            width = currentAspect >= this._fixedAspectRatio ? width : height * this._fixedAspectRatio;
+            height = currentAspect >= this._fixedAspectRatio ? width / this._fixedAspectRatio : height;
+        }
+
+        const stayInBoundFactor = Math.max(width / maxWidth, height / maxHeight, 1);
+        width = width / stayInBoundFactor;
+        height = height / stayInBoundFactor;
+
+        return [width, height];
+    }
+
+    _isCropzoneSet() {
+        return this._cropzone && this._cropzone.left >= 0 && this._cropzone.top >= 0;
     }
 
     /**
@@ -293,18 +327,44 @@ class Cropper extends Component {
     }
 
     /**
-     * Set a cropzone square
+     * Set a cropzone rectangle
      * @param {number} [presetRatio] - preset ratio
      */
     setCropzoneRect(presetRatio) {
+        this._recalcCropzoneRect(presetRatio, pr => pr ? this._getPresetPropertiesForCropSize(pr) : DEFAULT_OPTION);
+    }
+
+    /**
+     * Update the current cropzone rect, taking the given preset ratio as the basis for the cropzone rect.
+     * @param {number} [presetRatio] - preset ratio
+     */
+    updateCropzoneRect(presetRatio) {
+        if (!this._isCropzoneSet() || !presetRatio) {
+            this.setCropzoneRect(presetRatio);
+        } else {
+            this._recalcCropzoneRect(presetRatio, pr => this._updateCurrentCropzoneRect(pr));
+        }
+    }
+
+    /**
+     * Recalc the cropzone rect, using the provided preset Ratio and a function that takes the preset ratio as input
+     * and returns the new dimensions for the cropzone rect.
+     * @param {number} [presetRatio] - preset ratio
+     * @param {function} [dimensionFactory] - factory function for calculating the new dimensions. 
+     * Input: presetRatio (number), Output: new dimension object.
+     * @private
+     */
+    _recalcCropzoneRect(presetRatio, dimensionFactory) {
         const canvas = this.getCanvas();
         const cropzone = this._cropzone;
+
+        this._fixedAspectRatio = presetRatio;
 
         canvas.discardActiveObject();
         canvas.selection = false;
         canvas.remove(cropzone);
 
-        cropzone.set(presetRatio ? this._getPresetPropertiesForCropSize(presetRatio) : DEFAULT_OPTION);
+        cropzone.set(dimensionFactory(presetRatio));
 
         canvas.add(cropzone);
         canvas.selection = true;
@@ -337,12 +397,67 @@ class Cropper extends Component {
         const scaleHeight = getScale(height, originalHeight);
         [width, height] = snippet.map([width, height], sizeValue => fixFloatingPoint(sizeValue * scaleHeight));
 
+        // Set cropzone width and height only to 50% of the canvas so that users immediately recognize the cropzone rect, which is not as
+        // easily seen when the rect stretches to the canvas edges.
+        width /= 2;
+        height /= 2;
+
         return {
             presetRatio,
             top: (originalHeight - height) / 2,
             left: (originalWidth - width) / 2,
             width,
             height
+        };
+    }
+
+    /**
+     * Calculate the cropzone rect for a new preset ratio that is based on the dimensions and position of the current
+     * cropzone rect.
+     * @param {number} [presetRatio] - preset ratio
+     * @returns {{presetRatio: number, left: number, top: number, width: number, height: number}}
+     * @private
+     */
+    _updateCurrentCropzoneRect(presetRatio) {
+        const canvas = this.getCanvas();
+        const cr = this.getCropzoneRect();
+        const currentAspect = cr.width / cr.height;
+        const maxSize = Math.max(cr.width, cr.height);
+        const widthRatio = maxSize / canvas.getWidth();
+        const heightRatio = maxSize / canvas.getHeight();
+        const newRatioIsPortraitButOldIsLandscape = presetRatio < 1 && currentAspect >= 1;
+        const newRatioIsLandscapeButOldIsPortrait = presetRatio >= 1 && currentAspect < 1;
+        const scale = (newRatioIsPortraitButOldIsLandscape || newRatioIsLandscapeButOldIsPortrait)
+            ? Math.max(widthRatio, heightRatio, 1)
+            : 1;
+
+        return this._enusreNewCropzoneRectIsinBoundary(presetRatio, maxSize, scale);
+    }
+
+    _enusreNewCropzoneRectIsinBoundary(presetRatio, maxSize, scale) {
+        const canvas = this.getCanvas();
+        const cr = this.getCropzoneRect();
+        const widthRatio = maxSize / canvas.getWidth();
+        const heightRatio = maxSize / canvas.getHeight();
+        let width, height;
+
+        if (presetRatio >= 1) {
+            width = maxSize / scale;
+            height = width / presetRatio;
+        } else {
+            height = maxSize / scale;
+            width = height * presetRatio;
+        }
+
+        const topOffset = (cr.height - height) / 2;
+        const leftOffset = (cr.width - width) / 2;
+
+        return {
+            presetRatio,
+            top: clamp(heightRatio > 1 ? 0 : cr.top + topOffset, 0, canvas.getHeight() - height),
+            left: clamp(widthRatio > 1 ? 0 : cr.left + leftOffset, 0, canvas.getWidth() - width),
+            height,
+            width
         };
     }
 

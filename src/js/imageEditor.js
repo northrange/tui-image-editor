@@ -716,6 +716,10 @@ class ImageEditor {
         this._graphics.setCropzoneRect(mode);
     }
 
+    updateCropzoneRect(mode) {
+        this._graphics.updateCropzoneRect(mode);
+    }
+
     /**
      * Flip
      * @returns {Promise}
