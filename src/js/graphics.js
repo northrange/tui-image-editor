@@ -608,19 +608,21 @@ class Graphics {
 
     /**
      * Sets the cropped rect on the image, using the maximally available amount of space.
-     * @param {number} [mode] cropzone rect mode
+     * @param {number} [aspectRatio] cropzone rect aspect ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
-    setCropzoneRect(mode) {
-        this.getComponent(components.CROPPER).setCropzoneRect(mode);
+    setCropzoneRect(aspectRatio, fixAspect) {
+        this.getComponent(components.CROPPER).setCropzoneRect(aspectRatio || 1, fixAspect);
     }
 
     /**
      * Update the cropped rect on the image, using the provided mode and respecting the boundaries of the current cropzone rect (i.e. the new cropzone rect is
      * always within the boundaries of the current cropzone rect).
-     * @param {number} [mode] cropzone rect mode
+     * @param {number} [aspectRatio] cropzone rect aspect ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
-    updateCropzoneRect(mode) {
-        this.getComponent(components.CROPPER).updateCropzoneRect(mode);
+    updateCropzoneRect(aspectRatio, fixAspect) {
+        this.getComponent(components.CROPPER).updateCropzoneRect(aspectRatio, fixAspect);
     }
 
     /**

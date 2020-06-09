@@ -4,6 +4,7 @@
  */
 import snippet from 'tui-code-snippet';
 import Invoker from './invoker';
+import UI from './ui';
 import action from './action';
 import commandFactory from './factory/command';
 import Graphics from './graphics';
@@ -145,6 +146,14 @@ class ImageEditor {
         this.mode = null;
 
         this.activeObjectId = null;
+
+        if (options.includeUI) {
+            const UIOption = options.includeUI;
+            UIOption.usageStatistics = options.usageStatistics;
+
+            this.ui = new UI(wrapper, UIOption, this.getActions());
+            options = this.ui.setUiDefaultSelectionStyle(options);
+        }
 
         /**
          * Invoker
@@ -696,15 +705,22 @@ class ImageEditor {
     }
 
     /**
-     * Set the cropping rect
-     * @param {number} [mode] crop rect mode [1, 1.5, 1.3333333333333333, 1.25, 1.7777777777777777]
+     * Sets the cropped rect on the image, using the maximally available amount of space.
+     * @param {number} [aspectRatio] cropzone rect aspect ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
-    setCropzoneRect(mode) {
-        this._graphics.setCropzoneRect(mode);
+    setCropzoneRect(aspectRatio, fixAspect) {
+        this._graphics.setCropzoneRect(aspectRatio, fixAspect);
     }
 
-    updateCropzoneRect(mode) {
-        this._graphics.updateCropzoneRect(mode);
+    /**
+     * Update the cropped rect on the image, using the provided mode and respecting the boundaries of the current cropzone rect (i.e. the new cropzone rect is
+     * always within the boundaries of the current cropzone rect).
+     * @param {number} [aspectRatio] cropzone rect aspect ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
+     */
+    updateCropzoneRect(aspectRatio, fixAspect) {
+        this._graphics.updateCropzoneRect(aspectRatio, fixAspect);
     }
 
     /**

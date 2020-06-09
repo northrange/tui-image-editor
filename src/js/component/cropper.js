@@ -328,59 +328,61 @@ class Cropper extends Component {
 
     /**
      * Set a cropzone rectangle
-     * @param {number} [presetRatio] - preset ratio
+     * @param {number} [aspectRatio] - aspect ratio to use for the cropzone rect
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
-    setCropzoneRect(presetRatio) {
-        this._recalcCropzoneRect(presetRatio, pr => pr ? this._getPresetPropertiesForCropSize(pr) : DEFAULT_OPTION);
+    setCropzoneRect(aspectRatio, fixAspect) {
+        this._renderCropzoneRect(aspectRatio, ar => ar
+            ? this._getPresetPropertiesForCropSize(ar, fixAspect)
+            : DEFAULT_OPTION);
     }
 
     /**
      * Update the current cropzone rect, taking the given preset ratio as the basis for the cropzone rect.
-     * @param {number} [presetRatio] - preset ratio
+     * @param {number} [aspectRatio] - aspect ratio to use for the new cropzone rect
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
-    updateCropzoneRect(presetRatio) {
-        if (!this._isCropzoneSet() || !presetRatio) {
-            this.setCropzoneRect(presetRatio);
+    updateCropzoneRect(aspectRatio, fixAspect) {
+        if (!this._isCropzoneSet()) {
+            this.setCropzoneRect(aspectRatio || 1, fixAspect);
         } else {
-            this._recalcCropzoneRect(presetRatio, pr => this._updateCurrentCropzoneRect(pr));
+            this._renderCropzoneRect(aspectRatio, ar => this._updateCurrentCropzoneRect(ar, fixAspect));
         }
     }
 
     /**
      * Recalc the cropzone rect, using the provided preset Ratio and a function that takes the preset ratio as input
      * and returns the new dimensions for the cropzone rect.
-     * @param {number} [presetRatio] - preset ratio
+     * @param {number} [aspectRatio] - preset ratio
      * @param {function} [dimensionFactory] - factory function for calculating the new dimensions. 
      * Input: presetRatio (number), Output: new dimension object.
      * @private
      */
-    _recalcCropzoneRect(presetRatio, dimensionFactory) {
+    _renderCropzoneRect(aspectRatio, dimensionFactory) {
         const canvas = this.getCanvas();
         const cropzone = this._cropzone;
 
-        this._fixedAspectRatio = presetRatio;
+        this._fixedAspectRatio = aspectRatio;
 
         canvas.discardActiveObject();
         canvas.selection = false;
         canvas.remove(cropzone);
 
-        cropzone.set(dimensionFactory(presetRatio));
+        cropzone.set(dimensionFactory(aspectRatio));
 
         canvas.add(cropzone);
         canvas.selection = true;
-
-        if (presetRatio) {
-            canvas.setActiveObject(cropzone);
-        }
+        canvas.setActiveObject(cropzone);
     }
 
     /**
      * get a cropzone square info
-     * @param {number} presetRatio - preset ratio
+     * @param {number} aspectRatio - preset ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      * @returns {{presetRatio: number, left: number, top: number, width: number, height: number}}
      * @private
      */
-    _getPresetPropertiesForCropSize(presetRatio) {
+    _getPresetPropertiesForCropSize(aspectRatio, fixAspect) {
         const canvas = this.getCanvas();
         const originalWidth = canvas.getWidth();
         const originalHeight = canvas.getHeight();
@@ -388,7 +390,7 @@ class Cropper extends Component {
         const standardSize = (originalWidth >= originalHeight) ? originalWidth : originalHeight;
         const getScale = (value, orignalValue) => (value > orignalValue) ? orignalValue / value : 1;
 
-        let width = standardSize * presetRatio;
+        let width = standardSize * aspectRatio;
         let height = standardSize;
 
         const scaleWidth = getScale(width, originalWidth);
@@ -403,7 +405,7 @@ class Cropper extends Component {
         height /= 2;
 
         return {
-            presetRatio,
+            presetRatio: fixAspect ? aspectRatio : null,
             top: (originalHeight - height) / 2,
             left: (originalWidth - width) / 2,
             width,
@@ -414,46 +416,54 @@ class Cropper extends Component {
     /**
      * Calculate the cropzone rect for a new preset ratio that is based on the dimensions and position of the current
      * cropzone rect.
-     * @param {number} [presetRatio] - preset ratio
+     * @param {number} [aspectRatio] - preset ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      * @returns {{presetRatio: number, left: number, top: number, width: number, height: number}}
      * @private
      */
-    _updateCurrentCropzoneRect(presetRatio) {
+    _updateCurrentCropzoneRect(aspectRatio, fixAspect) {
         const canvas = this.getCanvas();
         const cr = this.getCropzoneRect();
         const currentAspect = cr.width / cr.height;
+        aspectRatio = aspectRatio || currentAspect;
         const maxSize = Math.max(cr.width, cr.height);
         const widthRatio = maxSize / canvas.getWidth();
         const heightRatio = maxSize / canvas.getHeight();
-        const newRatioIsPortraitButOldIsLandscape = presetRatio < 1 && currentAspect >= 1;
-        const newRatioIsLandscapeButOldIsPortrait = presetRatio >= 1 && currentAspect < 1;
+        const newRatioIsPortraitButOldIsLandscape = aspectRatio < 1 && currentAspect >= 1;
+        const newRatioIsLandscapeButOldIsPortrait = aspectRatio >= 1 && currentAspect < 1;
         const scale = (newRatioIsPortraitButOldIsLandscape || newRatioIsLandscapeButOldIsPortrait)
             ? Math.max(widthRatio, heightRatio, 1)
             : 1;
 
-        return this._enusreNewCropzoneRectIsinBoundary(presetRatio, maxSize, scale);
+        return this._ensureNewCropzoneRectIsinBoundary(aspectRatio, fixAspect, maxSize, scale);
     }
 
-    _enusreNewCropzoneRectIsinBoundary(presetRatio, maxSize, scale) {
+    _ensureNewCropzoneRectIsinBoundary(aspectRatio, fixAspect, maxSize, scale) {
         const canvas = this.getCanvas();
         const cr = this.getCropzoneRect();
-        const widthRatio = maxSize / canvas.getWidth();
-        const heightRatio = maxSize / canvas.getHeight();
+        let widthRatio = 1;
+        let heightRatio = 1;
+
+        if (scale > 1) {
+            widthRatio = maxSize / canvas.getWidth();
+            heightRatio = maxSize / canvas.getHeight();
+        }
+
         let width, height;
 
-        if (presetRatio >= 1) {
+        if (aspectRatio >= 1) {
             width = maxSize / scale;
-            height = width / presetRatio;
+            height = width / aspectRatio;
         } else {
             height = maxSize / scale;
-            width = height * presetRatio;
+            width = height * aspectRatio;
         }
 
         const topOffset = (cr.height - height) / 2;
         const leftOffset = (cr.width - width) / 2;
 
         return {
-            presetRatio,
+            presetRatio: fixAspect ? aspectRatio : null,
             top: clamp(heightRatio > 1 ? 0 : cr.top + topOffset, 0, canvas.getHeight() - height),
             left: clamp(widthRatio > 1 ? 0 : cr.left + leftOffset, 0, canvas.getWidth() - width),
             height,

@@ -98,6 +98,7 @@ class Crop extends Submenu {
      */
     changeStartMode() {
         this.actions.modeChange('crop');
+        this.actions.preset();
     }
 
     /**

@@ -345,25 +345,25 @@ export default {
             preset: presetType => {
                 switch (presetType) {
                     case 'preset-square':
-                        this.updateCropzoneRect(1 / 1);
+                        this.updateCropzoneRect(1 / 1, true);
                         break;
                     case 'preset-3-2':
-                        this.updateCropzoneRect(3 / 2);
+                        this.updateCropzoneRect(3 / 2, true);
                         break;
                     case 'preset-4-3':
-                        this.updateCropzoneRect(4 / 3);
+                        this.updateCropzoneRect(4 / 3, true);
                         break;
                     case 'preset-5-4':
-                        this.updateCropzoneRect(5 / 4);
+                        this.updateCropzoneRect(5 / 4, true);
                         break;
                     case 'preset-7-5':
-                        this.updateCropzoneRect(7 / 5);
+                        this.updateCropzoneRect(7 / 5, true);
                         break;
                     case 'preset-16-9':
-                        this.updateCropzoneRect(16 / 9);
+                        this.updateCropzoneRect(16 / 9, true);
                         break;
                     default:
-                        this.setCropzoneRect();
+                        this.updateCropzoneRect();
                         this.ui.crop.changeApplyButtonStatus(false);
                         break;
                 }

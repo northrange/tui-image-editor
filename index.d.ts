@@ -1,4 +1,4 @@
-// Type definitions for TOAST UI Image Editor v1.1.0
+// Type definitions for TOAST UI Image Editor v1.1.1
 // TypeScript Version: 3.2.2
 export declare interface IThemeConfig {
     'common.bi.image'?: string;
@@ -295,7 +295,8 @@ export declare class ImageEditor {
     public rotate(angle: number, isSilent?: boolean): Promise<number>;
     public setAngle(angle: number, isSilent?: boolean): Promise<number>;
     public setBrush(option: IBrushOptions): void;
-    public setCropzoneRect(mode?: number): void;
+    public setCropzoneRect(mode?: number, fixAspect?: boolean): void;
+    public updateCropzoneRect(aspectRatio?: number, fixAspect?: boolean): void;
     public setDrawingShape(type: string, options?: IShapeOptions): void;
     public setObjectPosition(id: number, posInfo?: IPositionConfig): Promise<void>;
     public setObjectProperties(id: number, keyValue?: IGraphicObjectProps): Promise<void>;

@@ -315,17 +315,6 @@ describe('Cropper', () => {
 
             expect(cropper._cropzone.set.calls.first().args[0].width).toBe(408);
         });
-
-        it('should remove cropzone of cropper when falsy is passed', () => {
-            cropper.setCropzoneRect();
-            expect(cropper.getCropzoneRect()).toBeFalsy();
-
-            cropper.setCropzoneRect(0);
-            expect(cropper.getCropzoneRect()).toBeFalsy();
-
-            cropper.setCropzoneRect(null);
-            expect(cropper.getCropzoneRect()).toBeFalsy();
-        });
     });
 
     describe('"end()"', () => {
