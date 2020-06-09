@@ -87,7 +87,7 @@ var shapeColorpicker = tui.colorPicker.create({
 });
 
 // Create image editor
-var imageEditor = new tui.ImageEditor('.tui-image-editor', {
+var imageEditor = new tui.editor.ImageEditor('.tui-image-editor', {
     cssMaxWidth: document.documentElement.clientWidth,
     cssMaxHeight: document.documentElement.clientHeight,
     selectionStyle: {

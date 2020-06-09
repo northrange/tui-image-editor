@@ -4,7 +4,6 @@
  */
 import snippet from 'tui-code-snippet';
 import Invoker from './invoker';
-import UI from './ui';
 import action from './action';
 import commandFactory from './factory/command';
 import Graphics from './graphics';
@@ -146,18 +145,6 @@ class ImageEditor {
         this.mode = null;
 
         this.activeObjectId = null;
-
-        /**
-         * UI instance
-         * @type {Ui}
-         */
-        if (options.includeUI) {
-            const UIOption = options.includeUI;
-            UIOption.usageStatistics = options.usageStatistics;
-
-            this.ui = new UI(wrapper, UIOption, this.getActions());
-            options = this.ui.setUiDefaultSelectionStyle(options);
-        }
 
         /**
          * Invoker

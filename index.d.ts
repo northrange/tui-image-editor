@@ -1,5 +1,5 @@
-export declare type AngleType = number;
-
+// Type definitions for TOAST UI Image Editor v1.0.7
+// TypeScript Version: 3.2.2
 export declare interface IThemeConfig {
     'common.bi.image'?: string;
     'common.bisize.width'?: string;

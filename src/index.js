@@ -1,6 +1,5 @@
 import './js/polyfill';
-import ImageEditor from './js/imageEditor';
-import './css/index.styl';
+import imageEditor from './js/imageEditor';
 
 // commands
 import './js/command/addIcon';
@@ -23,4 +22,4 @@ import './js/command/rotate';
 import './js/command/setObjectProperties';
 import './js/command/setObjectPosition';
 
-module.exports.ImageEditor = ImageEditor;
+export const ImageEditor = imageEditor;

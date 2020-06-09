@@ -24,7 +24,7 @@ module.exports = {
     mode: isProduction ? 'production' : 'development',
     entry: './src/index.js',
     output: {
-        library: ['tui', 'ImageEditor'],
+        library: ['tui', 'editor'],
         libraryTarget: 'umd',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/dist',
