@@ -162,6 +162,8 @@ class ImageEditor {
          */
         this._invoker = new Invoker();
 
+        this._preventObjectDeletion = false;
+
         /**
          * Graphics instance
          * @type {Graphics}
@@ -348,7 +350,7 @@ class ImageEditor {
         const isDeleteKey = keyCode === keyCodes.BACKSPACE || keyCode === keyCodes.DEL;
         const isRemoveReady = this._graphics.isReadyRemoveObject();
 
-        if (isRemoveReady && isDeleteKey) {
+        if (isRemoveReady && isDeleteKey && !this._preventObjectDeletion) {
             e.preventDefault();
             this.removeActiveObject();
         }
@@ -721,6 +723,10 @@ class ImageEditor {
      */
     updateCropzoneRect(aspectRatio, fixAspect) {
         this._graphics.updateCropzoneRect(aspectRatio, fixAspect);
+    }
+
+    preventObjectDeletion(prevent) {
+        this._preventObjectDeletion = prevent;
     }
 
     /**

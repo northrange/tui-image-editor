@@ -305,6 +305,7 @@ export declare class ImageEditor {
     public stopDrawingMode(): void;
     public toDataURL(options?: IToDataURLOptions): string;
     public undo(): Promise<any>;
+    public preventObjectDeletion(prevent: boolean): void;
     public on(eventName: string, handler: (...args: any[]) => void): void;
     public off(eventName: string): void;
 }
