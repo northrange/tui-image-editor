@@ -1,7 +1,3 @@
-// Type definitions for TOAST UI Image Editor v1.0.0
-// TypeScript Version: 3.2.2
-
-// declare namespace tuiImageEditor {
 export declare type AngleType = number;
 
 export declare interface IThemeConfig {
@@ -227,8 +223,8 @@ export declare interface IOptions {
     cssMaxHeight?: number;
     usageStatistics?: boolean;
     selectionStyle?: ISelectionStyleConfig;
-    applyCropSelectionStyle: boolean;
-    applyGroupSelectionStyle: boolean;
+    applyCropSelectionStyle?: boolean;
+    applyGroupSelectionStyle?: boolean;
 }
 
 export declare interface IUIDimension {
@@ -309,5 +305,5 @@ export declare class ImageEditor {
     public toDataURL(options?: IToDataURLOptions): string;
     public undo(): Promise<any>;
     public on(eventName: string, handler: (...args: any[]) => void): void;
+    public off(eventName: string): void;
 }
-// }
