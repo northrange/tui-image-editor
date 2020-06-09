@@ -357,10 +357,10 @@ export default {
                         this.updateCropzoneRect(5 / 4);
                         break;
                     case 'preset-7-5':
-                        this.updateCropzoneRect(1 / 4);
+                        this.updateCropzoneRect(7 / 5);
                         break;
                     case 'preset-16-9':
-                        this.updateCropzoneRect(4 / 1);
+                        this.updateCropzoneRect(16 / 9);
                         break;
                     default:
                         this.setCropzoneRect();
