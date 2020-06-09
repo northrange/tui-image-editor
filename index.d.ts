@@ -214,7 +214,7 @@ export declare interface ICropResolveObject {
 export declare interface IFlipXYResolveObject {
     flipX: boolean;
     flipY: boolean;
-    angle: AngleType;
+    angle: number;
 }
 
 export declare interface IOptions {
@@ -292,8 +292,8 @@ export declare class ImageEditor {
     public removeObject(id: number): Promise<void>;
     public resetFlip(): Promise<IFlipXYResolveObject>;
     public resizeCanvasDimension(dimension: ICanvasSize): Promise<void>;
-    public rotate(angle: AngleType, isSilent?: boolean): Promise<AngleType>;
-    public setAngle(angle: AngleType, isSilent?: boolean): Promise<AngleType>;
+    public rotate(angle: number, isSilent?: boolean): Promise<number>;
+    public setAngle(angle: number, isSilent?: boolean): Promise<number>;
     public setBrush(option: IBrushOptions): void;
     public setCropzoneRect(mode?: number): void;
     public setDrawingShape(type: string, options?: IShapeOptions): void;
