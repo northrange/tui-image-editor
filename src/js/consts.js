@@ -59,6 +59,7 @@ export const CROPZONE_DEFAULT_OPTIONS = {
 export const commandNames = {
     'CLEAR_OBJECTS': 'clearObjects',
     'LOAD_IMAGE': 'loadImage',
+    'CROP_IMAGE': 'cropImage',
     'FLIP_IMAGE': 'flip',
     'ROTATE_IMAGE': 'rotate',
     'ADD_OBJECT': 'addObject',

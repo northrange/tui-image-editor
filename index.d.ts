@@ -219,6 +219,7 @@ export declare interface IOptions {
     includeUI?: IIncludeUIOptions;
     cssMaxWidth?: number;
     cssMaxHeight?: number;
+    silentCommands: string[];
     usageStatistics?: boolean;
     selectionStyle?: ISelectionStyleConfig;
     applyCropSelectionStyle?: boolean;

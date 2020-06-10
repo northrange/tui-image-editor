@@ -162,6 +162,7 @@ class ImageEditor {
          */
         this._invoker = new Invoker();
 
+        this._silentCommands = options.silentCommands;
         this._preventObjectDeletion = false;
 
         /**
@@ -620,6 +621,7 @@ class ImageEditor {
      * Load image from url
      * @param {string} url - File url
      * @param {string} imageName - imageName
+     * @param {boolean} silent - true, if the operation can be undone; false otherwise.
      * @returns {Promise<SizeChange, ErrorMsg>}
      * @example
      * imageEditor.loadImageFromURL('http://url/testImage.png', 'lena').then(result => {
@@ -627,12 +629,14 @@ class ImageEditor {
      *      console.log('new : ' + result.newWidth + ', ' + result.newHeight);
      * });
      */
-    loadImageFromURL(url, imageName) {
+    loadImageFromURL(url, imageName, silent = true) {
         if (!imageName || !url) {
             return Promise.reject(rejectMessages.invalidParameters);
         }
 
-        return this.execute(commands.LOAD_IMAGE, imageName, url);
+        return silent && this._isSilentCommand(commands.LOAD_IMAGE)
+            ? this.executeSilent(commands.LOAD_IMAGE, imageName, url)
+            : this.execute(commands.LOAD_IMAGE, imageName, url);
     }
 
     /**
@@ -649,7 +653,9 @@ class ImageEditor {
             return Promise.reject(rejectMessages.invalidParameters);
         }
 
-        return this.execute(commands.ADD_IMAGE_OBJECT, imgUrl);
+        return this._isSilentCommand(commands.ADD_IMAGE_OBJECT)
+            ? this.executeSilent(commands.ADD_IMAGE_OBJECT, imgUrl)
+            : this.execute(commands.ADD_IMAGE_OBJECT, imgUrl);
     }
 
     /**
@@ -691,11 +697,12 @@ class ImageEditor {
      */
     crop(rect) {
         const data = this._graphics.getCroppedImageData(rect);
+
         if (!data) {
             return Promise.reject(rejectMessages.invalidParameters);
         }
 
-        return this.loadImageFromURL(data.url, data.imageName);
+        return this.loadImageFromURL(data.url, data.imageName, this._isSilentCommand(commands.CROP_IMAGE));
     }
 
     /**
@@ -719,12 +726,16 @@ class ImageEditor {
      * Update the cropped rect on the image, using the provided mode and respecting the boundaries of the current cropzone rect (i.e. the new cropzone rect is
      * always within the boundaries of the current cropzone rect).
      * @param {number} [aspectRatio] cropzone rect aspect ratio
-     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
+     * @param {boolean} [fixAspect] flag, whether or not to fix the aspect ratio
      */
     updateCropzoneRect(aspectRatio, fixAspect) {
         this._graphics.updateCropzoneRect(aspectRatio, fixAspect);
     }
 
+    /**
+     * Enable or disable object deletion via keyboard keys.
+     * @param {boolean} prevent flag, whether or not to prevent object deletion via keyboard keys (BACKSPACE, DEL)
+     */
     preventObjectDeletion(prevent) {
         this._preventObjectDeletion = prevent;
     }
@@ -737,7 +748,9 @@ class ImageEditor {
      * @private
      */
     _flip(type) {
-        return this.execute(commands.FLIP_IMAGE, type);
+        return this._isSilentCommand(commands.FLIP_IMAGE)
+            ? this.executeSilent(commands.FLIP_IMAGE, type)
+            : this.execute(commands.FLIP_IMAGE, type);
     }
 
     /**
@@ -797,7 +810,7 @@ class ImageEditor {
      */
     _rotate(type, angle, isSilent) {
         let result = null;
-        if (isSilent) {
+        if (isSilent || this._isSilentCommand(commands.ROTATE_IMAGE)) {
             result = this.executeSilent(commands.ROTATE_IMAGE, type, angle);
         } else {
             result = this.execute(commands.ROTATE_IMAGE, type, angle);
@@ -954,7 +967,9 @@ class ImageEditor {
 
         this._setPositions(options);
 
-        return this.execute(commands.ADD_SHAPE, type, options);
+        return this._isSilentCommand(commands.ADD_SHAPE)
+            ? this.executeSilent(commands.ADD_SHAPE, type, options)
+            : this.execute(commands.ADD_SHAPE, type, options);
     }
 
     /**
@@ -1031,7 +1046,9 @@ class ImageEditor {
         text = text || '';
         options = options || {};
 
-        return this.execute(commands.ADD_TEXT, text, options);
+        return this._isSilentCommand(commands.ADD_TEXT)
+            ? this.executeSilent(commands.ADD_TEXT, text, options)
+            : this.execute(commands.ADD_TEXT, text, options);
     }
 
     /**
@@ -1045,7 +1062,9 @@ class ImageEditor {
     changeText(id, text) {
         text = text || '';
 
-        return this.execute(commands.CHANGE_TEXT, id, text);
+        return this._isSilentCommand(commands.CHANGE_TEXT)
+            ? this.executeSilent(commands.CHANGE_TEXT, id, text)
+            : this.execute(commands.CHANGE_TEXT, id, text);
     }
 
     /**
@@ -1195,6 +1214,15 @@ class ImageEditor {
     }
 
     /**
+     * Gets whether or not a command should be executed silently.
+     * @param {string} command - the name of the command
+     * @returns {boolean} - true, if the given command should be executed silently; false otherwise.
+     */
+    _isSilentCommand(command) {
+        return this._silentCommands && !this._silentCommands[command];
+    }
+
+    /**
      * Register custom icons
      * @param {{iconType: string, pathValue: string}} infos - Infos to register icons
      * @example
@@ -1240,7 +1268,9 @@ class ImageEditor {
 
         this._setPositions(options);
 
-        return this.execute(commands.ADD_ICON, type, options);
+        return this._isSilentCommand(commands.ADD_ICON)
+            ? this.executeSilent(commands.ADD_ICON, type, options)
+            : this.execute(commands.ADD_ICON, type, options);
     }
 
     /**
@@ -1252,7 +1282,9 @@ class ImageEditor {
      * imageEditor.changeIconColor(id, '#000000');
      */
     changeIconColor(id, color) {
-        return this.execute(commands.CHANGE_ICON_COLOR, id, color);
+        return this._isSilentCommand(commands.CHANGE_ICON_COLOR)
+            ? this.executeSilent(commands.CHANGE_ICON_COLOR, id, color)
+            : this.execute(commands.CHANGE_ICON_COLOR, id, color);
     }
 
     /**
@@ -1263,7 +1295,9 @@ class ImageEditor {
      * imageEditor.removeObject(id);
      */
     removeObject(id) {
-        return this.execute(commands.REMOVE_OBJECT, id);
+        return this._isSilentCommand(commands.REMOVE_OBJECT)
+            ? this.executeSilent(commands.REMOVE_OBJECT, id)
+            : this.execute(commands.REMOVE_OBJECT, id);
     }
 
     /**
@@ -1288,7 +1322,9 @@ class ImageEditor {
      * });
      */
     removeFilter(type) {
-        return this.execute(commands.REMOVE_FILTER, type);
+        return this._isSilentCommand(commands.REMOVE_FILTER)
+            ? this.executeSilent(commands.REMOVE_FILTER, type)
+            : this.execute(commands.REMOVE_FILTER, type);
     }
 
     /**
@@ -1309,9 +1345,9 @@ class ImageEditor {
      * });;
      */
     applyFilter(type, options, isSilent) {
-        const executeMethodName = isSilent ? 'executeSilent' : 'execute';
-
-        return this[executeMethodName](commands.APPLY_FILTER, type, options);
+        return isSilent || this._isSilentCommand(commands.APPLY_FILTER)
+            ? this.executeSilent(commands.APPLY_FILTER, type, options)
+            : this.execute(commands.APPLY_FILTER, type, options);
     }
 
     /**
@@ -1392,7 +1428,9 @@ class ImageEditor {
             return Promise.reject(rejectMessages.invalidParameters);
         }
 
-        return this.execute(commands.RESIZE_CANVAS_DIMENSION, dimension);
+        return this._isSilentCommand(commands.RESIZE_CANVAS_DIMENSION)
+            ? this.executeSilent(commands.RESIZE_CANVAS_DIMENSION, dimension)
+            : this.execute(commands.RESIZE_CANVAS_DIMENSION, dimension);
     }
 
     /**
@@ -1445,7 +1483,9 @@ class ImageEditor {
      * });
      */
     setObjectProperties(id, keyValue) {
-        return this.execute(commands.SET_OBJECT_PROPERTIES, id, keyValue);
+        return this._isSilentCommand(commands.SET_OBJECT_PROPERTIES)
+            ? this.executeSilent(commands.SET_OBJECT_PROPERTIES, id, keyValue)
+            : this.execute(commands.SET_OBJECT_PROPERTIES, id, keyValue);
     }
 
     /**
@@ -1567,7 +1607,9 @@ class ImageEditor {
      * });
      */
     setObjectPosition(id, posInfo) {
-        return this.execute(commands.SET_OBJECT_POSITION, id, posInfo);
+        return this._isSilentCommand(commands.SET_OBJECT_POSITION)
+            ? this.executeSilent(commands.SET_OBJECT_POSITION, id, posInfo)
+            : this.execute(commands.SET_OBJECT_POSITION, id, posInfo);
     }
 }
 
