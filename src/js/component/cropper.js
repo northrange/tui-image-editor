@@ -332,7 +332,7 @@ class Cropper extends Component {
      * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      */
     setCropzoneRect(aspectRatio, fixAspect) {
-        this._renderCropzoneRect(aspectRatio, ar => ar
+        this._renderCropzoneRect(aspectRatio, fixAspect, ar => ar
             ? this._getPresetPropertiesForCropSize(ar, fixAspect)
             : DEFAULT_OPTION);
     }
@@ -346,7 +346,7 @@ class Cropper extends Component {
         if (!this._isCropzoneSet()) {
             this.setCropzoneRect(aspectRatio || 1, fixAspect);
         } else {
-            this._renderCropzoneRect(aspectRatio, ar => this._updateCurrentCropzoneRect(ar, fixAspect));
+            this._renderCropzoneRect(aspectRatio, fixAspect, ar => this._updateCurrentCropzoneRect(ar, fixAspect));
         }
     }
 
@@ -354,15 +354,16 @@ class Cropper extends Component {
      * Recalc the cropzone rect, using the provided preset Ratio and a function that takes the preset ratio as input
      * and returns the new dimensions for the cropzone rect.
      * @param {number} [aspectRatio] - preset ratio
+     * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
      * @param {function} [dimensionFactory] - factory function for calculating the new dimensions. 
      * Input: presetRatio (number), Output: new dimension object.
      * @private
      */
-    _renderCropzoneRect(aspectRatio, dimensionFactory) {
+    _renderCropzoneRect(aspectRatio, fixAspect, dimensionFactory) {
         const canvas = this.getCanvas();
         const cropzone = this._cropzone;
 
-        this._fixedAspectRatio = aspectRatio;
+        this._fixedAspectRatio = fixAspect ? aspectRatio : null;
 
         canvas.discardActiveObject();
         canvas.selection = false;
