@@ -83,7 +83,7 @@
     "doc:dev": "tuidoc --dev",
     "doc": "tuidoc",
     "tslint": "tslint index.d.ts",
-    "preversion": "npm run test:ne",
+    "preversion": "npm run test",
     "version": "npm run bundle && git add -A dist",
     "postversion": "git push all && git push all --tags"
   },
