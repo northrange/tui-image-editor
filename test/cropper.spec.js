@@ -185,40 +185,6 @@ describe('Cropper', () => {
             actual = cropper._calcRectDimensionFromPoint(x, y);
             expect(actual).toEqual(expected);
         });
-
-        it('should create cropzone that has fixed ratio during shift key is pressed.', () => {
-            const x = 100;
-            const y = 200;
-            const expected = {
-                left: 10,
-                top: 20,
-                width: 180,
-                height: 180
-            };
-
-            cropper._withShiftKey = true;
-
-            const actual = cropper._calcRectDimensionFromPoint(x, y);
-
-            expect(actual).toEqual(expected);
-        });
-
-        it('should create cropzone that inverted current mouse position during shift key is pressed.', () => {
-            const x = -10;
-            const y = -20;
-            const expected = {
-                left: -10,
-                top: 0,
-                width: 20,
-                height: 20
-            };
-
-            cropper._withShiftKey = true;
-
-            const actual = cropper._calcRectDimensionFromPoint(x, y);
-
-            expect(actual).toEqual(expected);
-        });
     });
 
     it('"onFabricMouseUp()" should activate cropzone', () => {
@@ -313,7 +279,7 @@ describe('Cropper', () => {
 
             cropper.setCropzoneRect(16 / 9);
 
-            expect(cropper._cropzone.set.calls.first().args[0].width).toBe(408);
+            expect(cropper._cropzone.set.calls.first().args[0].width).toBe(204);
         });
     });
 
