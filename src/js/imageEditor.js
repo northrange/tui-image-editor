@@ -1219,7 +1219,7 @@ class ImageEditor {
      * @returns {boolean} - true, if the given command should be executed silently; false otherwise.
      */
     _isSilentCommand(command) {
-        return this._silentCommands && !this._silentCommands[command];
+        return this._silentCommands && !!this._silentCommands[command];
     }
 
     /**
