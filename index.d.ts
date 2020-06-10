@@ -1,5 +1,4 @@
 export declare interface IThemeConfig {
-    'common.bi.image'?: string;
     'common.bisize.width'?: string;
     'common.bisize.height'?: string;
     'common.backgroundImage'?: string;

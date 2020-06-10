@@ -1,7 +1,7 @@
 {
   "name": "@northrange/tui-image-editor",
   "author": "northrange IT solutions",
-  "version": "1.1.4",
+  "version": "4.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -77,14 +77,14 @@
     "test:ne": "KARMA_SERVER=ne karma start",
     "test:ex": "node exampleTest.js",
     "test:types": "tsc --project test/types",
-    "bundle": "webpack && webpack -p && npm run bundle:svg && node tsBannerGenerator.js",
+    "bundle": "webpack && webpack -p && npm run bundle:svg",
     "bundle:svg": "node makesvg.js",
     "serve": "webpack-dev-server",
     "doc:dev": "tuidoc --dev",
     "doc": "tuidoc",
     "tslint": "tslint index.d.ts",
     "preversion": "npm run test",
-    "version": "npm run bundle && git add -A dist",
+    "version": "npm run bundle",
     "postversion": "git push all && git push all --tags"
   },
   "dependencies": {
