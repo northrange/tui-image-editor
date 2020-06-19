@@ -291,6 +291,7 @@ export declare class ImageEditor {
     public resetFlip(): Promise<IFlipXYResolveObject>;
     public resizeCanvasDimension(dimension: ICanvasSize): Promise<void>;
     public rotate(angle: number, isSilent?: boolean): Promise<number>;
+    public getAngle(): number;
     public setAngle(angle: number, isSilent?: boolean): Promise<number>;
     public setBrush(option: IBrushOptions): void;
     public setCropzoneRect(mode?: number, fixAspect?: boolean): void;

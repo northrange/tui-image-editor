@@ -9,7 +9,7 @@ import action from './action';
 import commandFactory from './factory/command';
 import Graphics from './graphics';
 import {sendHostName, Promise} from './util';
-import {eventNames as events, commandNames as commands, keyCodes, rejectMessages} from './consts';
+import {eventNames as events, commandNames as commands, componentNames as components, keyCodes, rejectMessages} from './consts';
 
 const {isUndefined, forEach, CustomEvents} = snippet;
 
@@ -838,6 +838,14 @@ class ImageEditor {
      */
     rotate(angle, isSilent) {
         return this._rotate('rotate', angle, isSilent);
+    }
+
+    /**
+     * Gets the current angle of the image.
+     * @returns {number}
+     */
+    getAngle() {
+        return this._graphics.getComponent(components.ROTATION).getCurrentAngle();
     }
 
     /**

@@ -383,6 +383,7 @@ $btnCrop.on('click', function() {
 });
 
 $btnFlip.on('click', function() {
+    console.log(imageEditor.getAngle());
     imageEditor.stopDrawingMode();
     $displayingSubMenu.hide();
     $displayingSubMenu = $flipSubMenu.show();
