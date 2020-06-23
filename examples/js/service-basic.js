@@ -9,6 +9,7 @@ var rImageType = /data:(image\/.+);base64,/;
 var shapeOptions = {};
 var shapeType;
 var activeObjectId;
+var rotation = 0;
 
 // Buttons
 var $btns = $('.menu-item');
@@ -44,6 +45,7 @@ var $btnClose = $('.close');
 
 // Input etc.
 var $inputRotationRange = $('#input-rotation-range');
+var $inputStraightenRange = $('#input-straighten-range');
 var $inputBrushWidthRange = $('#input-brush-width-range');
 var $inputFontSizeRange = $('#input-font-size-range');
 var $inputStrokeWidthRange = $('#input-stroke-width-range');
@@ -390,7 +392,6 @@ $btnFlip.on('click', function() {
 });
 
 $btnRotation.on('click', function() {
-    imageEditor.stopDrawingMode();
     $displayingSubMenu.hide();
     $displayingSubMenu = $rotationSubMenu.show();
 });
@@ -436,16 +437,23 @@ $btnResetFlip.on('click', function() {
 });
 
 $btnRotateClockwise.on('click', function() {
-    imageEditor.rotate(30);
+    rotation = (Math.floor((rotation + 90) / 90) * 90) % 360;
+    imageEditor.setAngle(rotation).then(() => {
+        imageEditor.straighten(parseInt($inputStraightenRange.val(), 10), rotation)['catch'](function() {});
+    });
 });
 
 $btnRotateCounterClockWise.on('click', function() {
-    imageEditor.rotate(-30);
+    rotation = (Math.ceil((rotation - 90) / 90) * 90) % 360;
+    imageEditor.setAngle(rotation).then(() => {
+        imageEditor.straighten(parseInt($inputStraightenRange.val(), 10), rotation)['catch'](function() {});
+    });
 });
 
 $inputRotationRange.on('mousedown', function() {
     var changeAngle = function() {
-        imageEditor.setAngle(parseInt($inputRotationRange.val(), 10))['catch'](function() {});
+        rotation = parseInt($inputRotationRange.val(), 10);
+        imageEditor.setAngle(rotation)['catch'](function() {});
     };
     $(document).on('mousemove', changeAngle);
     $(document).on('mouseup', function stopChangingAngle() {
@@ -455,7 +463,29 @@ $inputRotationRange.on('mousedown', function() {
 });
 
 $inputRotationRange.on('change', function() {
-    imageEditor.setAngle(parseInt($inputRotationRange.val(), 10))['catch'](function() {});
+    rotation = parseInt($inputRotationRange.val(), 10);
+    imageEditor.setAngle(rotation)['catch'](function() {});
+});
+
+$inputStraightenRange.on('mousedown', function() {
+    imageEditor.startDrawingMode('STRAIGHTEN');
+
+    var straighten = function() {
+        imageEditor.straighten(parseInt($inputStraightenRange.val(), 10), rotation)['catch'](function() {});
+    };
+    $(document).on('mousemove', straighten);
+    $(document).on('mouseup', function stopStraighten() {
+        $(document).off('mousemove', straighten);
+        $(document).off('mouseup', stopStraighten);
+    });
+});
+
+$inputStraightenRange.on('mouseup', function() {
+    imageEditor.stopDrawingMode();
+});
+
+$inputStraightenRange.on('change', function() {
+    imageEditor.straighten(parseInt($inputStraightenRange.val(), 10), rotation)['catch'](function() {});
 });
 
 $inputBrushWidthRange.on('change', function() {

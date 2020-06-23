@@ -19,6 +19,7 @@ export const componentNames = keyMirror(
     'CROPPER',
     'FLIP',
     'ROTATION',
+    'STRAIGHTEN',
     'FREE_DRAWING',
     'LINE',
     'TEXT',
@@ -62,6 +63,7 @@ export const commandNames = {
     'CROP_IMAGE': 'cropImage',
     'FLIP_IMAGE': 'flip',
     'ROTATE_IMAGE': 'rotate',
+    'STRAIGHTEN_IMAGE': 'straighten',
     'ADD_OBJECT': 'addObject',
     'REMOVE_OBJECT': 'removeObject',
     'APPLY_FILTER': 'applyFilter',
@@ -113,6 +115,7 @@ export const eventNames = {
 export const drawingModes = keyMirror(
     'NORMAL',
     'CROPPER',
+    'STRAIGHTEN',
     'FREE_DRAWING',
     'LINE_DRAWING',
     'TEXT',

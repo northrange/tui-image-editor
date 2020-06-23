@@ -20,6 +20,7 @@ import './js/command/removeFilter';
 import './js/command/removeObject';
 import './js/command/resizeCanvasDimension';
 import './js/command/rotate';
+import './js/command/straighten';
 import './js/command/setObjectProperties';
 import './js/command/setObjectPosition';
 

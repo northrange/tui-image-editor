@@ -174,6 +174,13 @@ export declare interface ISelectionStyleConfig {
     rotatingPointOffset?: number;
 }
 
+export declare interface IGridStyleConfig {
+    color?: string;
+    hCellCount?: number;
+    vCellCount?: number;
+    withCircles?: boolean;
+}
+
 export declare interface IObjectProps { // icon, shape
     fill: string;
     height: number;
@@ -221,8 +228,10 @@ export declare interface IOptions {
     silentCommands: string[];
     usageStatistics?: boolean;
     selectionStyle?: ISelectionStyleConfig;
+    gridStyle?: IGridStyleConfig;
     applyCropSelectionStyle?: boolean;
     applyGroupSelectionStyle?: boolean;
+    applyStraightenGridStyle?: boolean;
 }
 
 export declare interface IUIDimension {
@@ -291,6 +300,7 @@ export declare class ImageEditor {
     public resetFlip(): Promise<IFlipXYResolveObject>;
     public resizeCanvasDimension(dimension: ICanvasSize): Promise<void>;
     public rotate(angle: number, isSilent?: boolean): Promise<number>;
+    public straighten(angle: number, rotationAngle: number = 0, isSilent?: boolean): Promise<number>;
     public getAngle(): number;
     public setAngle(angle: number, isSilent?: boolean): Promise<number>;
     public setBrush(option: IBrushOptions): void;

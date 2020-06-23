@@ -171,6 +171,7 @@ class ImageEditor {
          * @private
          */
         this._graphics = new Graphics(
+            this,
             this.ui ? this.ui.getEditorArea() : wrapper, {
                 cssMaxWidth: options.cssMaxWidth,
                 cssMaxHeight: options.cssMaxHeight,
@@ -210,6 +211,9 @@ class ImageEditor {
             applyCropSelectionStyle: options.applyCropSelectionStyle,
             applyGroupSelectionStyle: options.applyGroupSelectionStyle
         });
+        this._setGridStyle(options.gridStyle, {
+            applyStraightenGridStyle: options.applyStraightenGridStyle
+        });
 
         if (options.usageStatistics) {
             sendHostName();
@@ -245,6 +249,19 @@ class ImageEditor {
                     eventTarget.set(selectionStyle);
                 }
             });
+        }
+    }
+
+    /**
+     * Set grid style by init option
+     * @param {Object} gridStyle - Grid styles
+     * @param {Object} applyTargets - Apply targets
+     *   @param {boolean} applyStraightenGridStyle - whether apply styles for the straightening grid or not
+     * @private
+     */
+    _setGridStyle(gridStyle, {applyStraightenGridStyle}) {
+        if (applyStraightenGridStyle) {
+            this._graphics.setStraightenGridStyle(gridStyle);
         }
     }
 
@@ -682,6 +699,22 @@ class ImageEditor {
      */
     stopDrawingMode() {
         this._graphics.stopDrawingMode();
+    }
+
+    // setStraigtenRect(angle) {
+    //     this._unstraightenedImage = this._graphics.getCanvasImage();
+
+    // }
+
+    straighten(angle, rotationAngle, isSilent) {
+        let result = null;
+        if (isSilent || this._isSilentCommand(commands.ROTATE_IMAGE)) {
+            result = this.executeSilent(commands.STRAIGHTEN_IMAGE, angle, rotationAngle);
+        } else {
+            result = this.execute(commands.STRAIGHTEN_IMAGE, angle, rotationAngle);
+        }
+
+        return result;
     }
 
     /**

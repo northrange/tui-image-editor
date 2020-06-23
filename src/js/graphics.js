@@ -14,7 +14,9 @@ import Text from './component/text';
 import Icon from './component/icon';
 import Filter from './component/filter';
 import Shape from './component/shape';
+import Straighten from './component/straighten';
 import CropperDrawingMode from './drawingMode/cropper';
+import StraightenDrawingMode from './drawingMode/straighten';
 import FreeDrawingMode from './drawingMode/freeDrawing';
 import LineDrawingMode from './drawingMode/lineDrawing';
 import ShapeDrawingMode from './drawingMode/shape';
@@ -46,12 +48,14 @@ const backstoreOnly = {
  * @ignore
  */
 class Graphics {
-    constructor(element, {
+    constructor(editor, element, {
         cssMaxWidth,
         cssMaxHeight,
         useItext = false,
         useDragAddIcon = false
     } = {}) {
+        this.editor = editor;
+
         /**
          * Fabric image instance
          * @type {fabric.Image}
@@ -83,10 +87,16 @@ class Graphics {
         this.useDragAddIcon = useDragAddIcon;
 
         /**
-         * cropper Selection Style
+         * Straightener Grid Style
          * @type {Object}
          */
         this.cropSelectionStyle = {};
+
+        /**
+         * cropper Selection Style
+         * @type {Object}
+         */
+        this.straightenGridStyle = {};
 
         /**
          * target fabric object for copy paste feature
@@ -214,6 +224,14 @@ class Graphics {
      */
     contains(target) {
         return this._canvas.contains(target);
+    }
+
+    /**
+     * Gets the image editor object
+     * @returns {ImageEditor} the image editor object
+     */
+    getEditor() {
+        return this.editor;
     }
 
     /**
@@ -375,6 +393,14 @@ class Graphics {
      */
     setCropSelectionStyle(style) {
         this.cropSelectionStyle = style;
+    }
+
+    /**
+     * Set grid styles for straightening operation
+     * @param {Object} style - Selection styles
+     */
+    setStraightenGridStyle(style) {
+        this.straightenGridStyle = style;
     }
 
     /**
@@ -872,6 +898,7 @@ class Graphics {
      */
     _createDrawingModeInstances() {
         this._register(this._drawingModeMap, new CropperDrawingMode());
+        this._register(this._drawingModeMap, new StraightenDrawingMode());
         this._register(this._drawingModeMap, new FreeDrawingMode());
         this._register(this._drawingModeMap, new LineDrawingMode());
         this._register(this._drawingModeMap, new ShapeDrawingMode());
@@ -887,6 +914,7 @@ class Graphics {
         this._register(this._componentMap, new Cropper(this));
         this._register(this._componentMap, new Flip(this));
         this._register(this._componentMap, new Rotation(this));
+        this._register(this._componentMap, new Straighten(this));
         this._register(this._componentMap, new FreeDrawing(this));
         this._register(this._componentMap, new Line(this));
         this._register(this._componentMap, new Text(this));
