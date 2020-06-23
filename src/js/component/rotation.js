@@ -39,6 +39,9 @@ class Rotation extends Component {
      */
     setAngle(angle) {
         const oldAngle = this.getCurrentAngle() % 360; // The angle is lower than 2*PI(===360 degrees)
+
+        angle %= 360;
+
         const canvasImage = this.getCanvasImage();
         const oldImageCenter = canvasImage.getCenterPoint();
         canvasImage.set({angle}).setCoords();

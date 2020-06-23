@@ -25,7 +25,7 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
         this.callSuper('initialize', options);
 
         this.canvas = canvas;
-        this.canvasImage = canvasImage;
+        this.canvasImage = canvasImage || {};
         this.options = options;
         this._originalWidth = canvas.getWidth();
         this._originalHeight = canvas.getHeight();

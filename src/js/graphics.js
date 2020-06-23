@@ -48,14 +48,12 @@ const backstoreOnly = {
  * @ignore
  */
 class Graphics {
-    constructor(editor, element, {
+    constructor(element, {
         cssMaxWidth,
         cssMaxHeight,
         useItext = false,
         useDragAddIcon = false
     } = {}) {
-        this.editor = editor;
-
         /**
          * Fabric image instance
          * @type {fabric.Image}
@@ -224,14 +222,6 @@ class Graphics {
      */
     contains(target) {
         return this._canvas.contains(target);
-    }
-
-    /**
-     * Gets the image editor object
-     * @returns {ImageEditor} the image editor object
-     */
-    getEditor() {
-        return this.editor;
     }
 
     /**
