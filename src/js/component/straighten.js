@@ -20,6 +20,8 @@ class Straighten extends Component {
     constructor(graphics) {
         super(components.STRAIGHTEN, graphics);
 
+        this._angle = 0;
+        this._clipRect = new fabric.Rect();
         this._rotation = this.graphics.getComponent(components.ROTATION);
     }
 
@@ -65,12 +67,12 @@ class Straighten extends Component {
         this._straightenGrid = null;
     }
 
-    /**
-     * Get current angle
-     * @returns {Number}
-     */
     getCurrentAngle() {
-        return this.getCanvasImage().angle;
+        return this._angle;
+    }
+
+    getClipRect() {
+        return this._clipRect;
     }
 
     straighten(angle, rotationAngle = 0) {
@@ -83,7 +85,8 @@ class Straighten extends Component {
         const straightenedImageSize = this._rotateAndGetSize(angle + rotationAngle);
         const maxRect = this._findLargestRectWithSameAspect(imageSize.width, imageSize.height,
             straightenedImageSize.width, straightenedImageSize.height, angle);
-        const clipPath = new fabric.Rect({
+        this._angle = angle;
+        this._clipRect = new fabric.Rect({
             originX: 'left',
             originY: 'top',
             left: (straightenedImageSize.width - maxRect.width) / 2,
@@ -94,10 +97,10 @@ class Straighten extends Component {
         });
 
         if (this._straightenGrid) {
-            this._straightenGrid.setClipRect(clipPath);
+            this._straightenGrid.setClipRect(this._clipRect);
         }
 
-        canvasImage.set({clipPath});
+        canvasImage.set({clipPath: this._clipRect});
         canvas.renderAll();
 
         return Promise.resolve(angle);

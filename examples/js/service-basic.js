@@ -472,6 +472,7 @@ $inputStraightenRange.on('mousedown', function() {
 
     var straighten = function() {
         imageEditor.straighten(parseInt($inputStraightenRange.val(), 10), rotation)['catch'](function() {});
+        console.log(imageEditor.getStraightenedRect());
     };
     $(document).on('mousemove', straighten);
     $(document).on('mouseup', function stopStraighten() {

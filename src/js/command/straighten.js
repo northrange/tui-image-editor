@@ -15,12 +15,12 @@ let chchedUndoDataForSilent = null;
 
 /**
  * Make undo data
- * @param {Component} rotationComp - rotation component
+ * @param {Component} straightenComp - straighten component
  * @returns {object} - undodata
  */
-function makeUndoData(rotationComp) {
+function makeUndoData(straightenComp) {
     return {
-        angle: rotationComp.getCurrentAngle()
+        angle: straightenComp.getCurrentAngle()
     };
 }
 
@@ -52,9 +52,9 @@ const command = {
      */
     undo(graphics) {
         const straightenComp = graphics.getComponent(STRAIGHTEN);
-        const [, angle, rotationAngle] = this.args;
+        const [, , rotationAngle] = this.args;
 
-        return straightenComp.straighten(-angle, rotationAngle);
+        return straightenComp.straighten(this.undoData.angle, rotationAngle);
     }
 };
 

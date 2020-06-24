@@ -287,6 +287,7 @@ export declare class ImageEditor {
     public getImageName(): string;
     public getObjectPosition(id: number, originX: string, originY: string): ICanvasSize;
     public getObjectProperties(id: number, keys: string | string[] | IGraphicObjectProps): IGraphicObjectProps;
+    public getStraightenedRect(): IRectConfig;
     public hasFilter(type: string): boolean;
     public isEmptyRedoStack(): boolean;
     public isEmptyUndoStack(): boolean;

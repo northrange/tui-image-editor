@@ -765,6 +765,14 @@ class ImageEditor {
     }
 
     /**
+     * Get the clipped rect when straightening an image.
+     * @returns {Object}  {{left: number, top: number, width: number, height: number}} rect
+     */
+    getStraightenedRect() {
+        return this._graphics.getStraightenedRect();
+    }
+
+    /**
      * Enable or disable object deletion via keyboard keys.
      * @param {boolean} prevent flag, whether or not to prevent object deletion via keyboard keys (BACKSPACE, DEL)
      */

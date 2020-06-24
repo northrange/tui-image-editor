@@ -655,6 +655,14 @@ class Graphics {
     }
 
     /**
+     * Get straightened rect
+     * @returns {Object} rect
+     */
+    getStraightenedRect() {
+        return this.getComponent(components.STRAIGHTEN).getClipRect();
+    }
+
+    /**
      * Set brush option
      * @param {Object} option brush option
      *  @param {Number} option.width width
