@@ -292,7 +292,7 @@ export declare class ImageEditor {
     public isEmptyRedoStack(): boolean;
     public isEmptyUndoStack(): boolean;
     public loadImageFromFile(imgFile: File, imageName?: string): Promise<ICropResolveObject>;
-    public loadImageFromURL(url: string, imageName?: string, silent: boolean): Promise<ICropResolveObject>;
+    public loadImageFromURL(url: string, imageName?: string, silent?: boolean): Promise<ICropResolveObject>;
     public redo(): Promise<any>;
     public registerIcons(infos: IIconInfo): void;
     public removeActiveObject(): void;
