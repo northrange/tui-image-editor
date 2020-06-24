@@ -20,7 +20,6 @@ class Straighten extends Component {
     constructor(graphics) {
         super(components.STRAIGHTEN, graphics);
 
-        this._angle = 0;
         this._rotation = this.graphics.getComponent(components.ROTATION);
     }
 
@@ -77,13 +76,11 @@ class Straighten extends Component {
     straighten(angle, rotationAngle = 0) {
         angle %= 360;
 
-        this._angle = angle;
         const canvas = this.getCanvas();
         const canvasImage = this.getCanvasImage();
 
         const imageSize = this._rotateAndGetSize(rotationAngle);
         const straightenedImageSize = this._rotateAndGetSize(angle + rotationAngle);
-
         const maxRect = this._findLargestRectWithSameAspect(imageSize.width, imageSize.height,
             straightenedImageSize.width, straightenedImageSize.height, angle);
         const clipPath = new fabric.Rect({
