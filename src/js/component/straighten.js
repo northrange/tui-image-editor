@@ -21,7 +21,12 @@ class Straighten extends Component {
         super(components.STRAIGHTEN, graphics);
 
         this._angle = 0;
-        this._clipRect = new fabric.Rect();
+        this._clipRect = new fabric.Rect({
+            left: 0,
+            top: 0,
+            width: this.getCanvas().getWidth(),
+            height: this.getCanvas().getHeight()
+        });
         this._rotation = this.graphics.getComponent(components.ROTATION);
     }
 

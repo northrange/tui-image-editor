@@ -38,8 +38,8 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
         this._clipRect = new fabric.Rect({
             left: 0,
             top: 0,
-            width: this._originalWidth,
-            height: this._originalHeight
+            width: canvasWidth,
+            height: canvasHeight
         });
     },
 
@@ -75,15 +75,14 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
         const wrapperHeight = this.canvas.wrapperEl.offsetHeight;
         const hPixelSize = canvasWidth / wrapperWidth;
         const vPixelSize = canvasHeight / wrapperHeight;
-        const halfWidth = this._clipRect.left + this._clipRect.width / 2;
-        const halfHeight = this._clipRect.top + this._clipRect.height / 2;
+        const halfWidth = canvasWidth / 2;
+        const halfHeight = canvasHeight / 2;
         const widthAdjuster = hPixelSize / this._originalHPixelSize;
         const heightAdjuster = vPixelSize / this._originalVPixelSize;
         const cellWidth = widthAdjuster * this.canvasImage.width / this.options.hCellCount;
         const cellHeight = heightAdjuster * this.canvasImage.height / this.options.vCellCount;
         const factors = [1, -1];
 
-        console.log(`hPixelSize: ${hPixelSize}, OrigHPixelSize: ${this._originalHPixelSize}`);
         ctx.save();
 
         factors.forEach(f => {
@@ -95,7 +94,7 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
                     lineWidthFactor * hPixelSize);
             }
 
-            for (let i = 0; i < this.options.vCellCount / 2; i += 1) {
+            for (let i = 0; i < this.options.vCellCount; i += 1) {
                 // Draw horizontal lines
                 const lineWidthFactor = i === 0 ? 2 : 1;
                 const x = halfWidth + f * i * cellWidth;
