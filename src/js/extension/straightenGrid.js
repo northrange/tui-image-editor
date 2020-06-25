@@ -79,8 +79,8 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
         const halfHeight = canvasHeight / 2;
         const widthAdjuster = hPixelSize / this._originalHPixelSize;
         const heightAdjuster = vPixelSize / this._originalVPixelSize;
-        const cellWidth = widthAdjuster * this.canvasImage.width / this.options.hCellCount;
-        const cellHeight = heightAdjuster * this.canvasImage.height / this.options.vCellCount;
+        const cellWidth = widthAdjuster * canvasWidth / this.options.hCellCount;
+        const cellHeight = heightAdjuster * canvasHeight / this.options.vCellCount;
         const factors = [1, -1];
 
         ctx.save();
