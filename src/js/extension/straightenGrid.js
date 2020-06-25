@@ -69,6 +69,9 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
      * @private
      */
     _drawGrid(ctx) {
+        const ang = this.canvasImage.angle;
+        const imageWidth = ang % 180 === 90 ? this.canvasImage.height : this.canvasImage.width;
+        const imageHeight = ang % 180 === 90 ? this.canvasImage.width : this.canvasImage.height;
         const canvasWidth = this.canvas.getWidth();
         const canvasHeight = this.canvas.getHeight();
         const wrapperWidth = this.canvas.wrapperEl.offsetWidth;
@@ -79,8 +82,8 @@ const StraightenGrid = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.
         const halfHeight = canvasHeight / 2;
         const widthAdjuster = hPixelSize / this._originalHPixelSize;
         const heightAdjuster = vPixelSize / this._originalVPixelSize;
-        const cellWidth = widthAdjuster * canvasWidth / this.options.hCellCount;
-        const cellHeight = heightAdjuster * canvasHeight / this.options.vCellCount;
+        const cellWidth = widthAdjuster * imageWidth / this.options.hCellCount;
+        const cellHeight = heightAdjuster * imageHeight / this.options.vCellCount;
         const factors = [1, -1];
 
         ctx.save();
