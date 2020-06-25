@@ -103,9 +103,16 @@ var imageEditor = new tui.editor.ImageEditor('.tui-image-editor', {
     cssMaxWidth: 700,
     cssMaxHeight: 500,
     selectionStyle: {
-        cornerSize: 20,
-        rotatingPointOffset: 70
-    }
+        borderColor: '#ffffff',
+        cornerColor: '#ffffff',
+        cornerSize: 10,
+        cornerStyle: 'circle',
+        transparentCorners: false,
+        rotatingPointOffset: 70,
+        lineWidth: 1
+    },
+    applyCropSelectionStyle: true,
+    applyStraightenGridStyle: true
 });
 
 // Color picker for free drawing

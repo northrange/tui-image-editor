@@ -209,21 +209,26 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
         const {x: outerX, y: outerY} = this._getCoordinates();
         const x = this._caculateInnerPosition(outerX, (outerX[2] - outerX[1]) / 3);
         const y = this._caculateInnerPosition(outerY, (outerY[2] - outerY[1]) / 3);
+        const pixelSize = this._calculatePixelSizes();
 
         ctx.save();
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.lineWidth = this.options.lineWidth;
-        ctx.beginPath();
 
+        // Horizontal lines
+        ctx.beginPath();
+        ctx.lineWidth = pixelSize.y * this.options.lineWidth;
         ctx.moveTo(x[0], y[1]);
         ctx.lineTo(x[3], y[1]);
-
         ctx.moveTo(x[0], y[2]);
         ctx.lineTo(x[3], y[2]);
+        ctx.stroke();
+        ctx.closePath();
 
+        // Vertical lines
+        ctx.beginPath();
+        ctx.lineWidth = pixelSize.x * this.options.lineWidth;
         ctx.moveTo(x[1], y[0]);
         ctx.lineTo(x[1], y[3]);
-
         ctx.moveTo(x[2], y[0]);
         ctx.lineTo(x[2], y[3]);
         ctx.stroke();
@@ -247,6 +252,25 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
         position[3] = outer[2];
 
         return position;
+    },
+
+    /**
+     * Calculate how many canvas pixels one on-screen-pixel takes
+     * @returns {cropzoneCoordinates} - {@link cropzoneCoordinates}
+     * @private
+     */
+    _calculatePixelSizes() {
+        const canvasWidth = this.canvas.getWidth();
+        const canvasHeight = this.canvas.getHeight();
+        const wrapperWidth = this.canvas.wrapperEl.offsetWidth;
+        const wrapperHeight = this.canvas.wrapperEl.offsetHeight;
+        const hPixelSize = canvasWidth / wrapperWidth;
+        const vPixelSize = canvasHeight / wrapperHeight;
+
+        return {
+            x: hPixelSize,
+            y: vPixelSize
+        };
     },
 
     /**
@@ -289,6 +313,7 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
     _strokeBorder(ctx, strokeStyle, {lineDashWidth, lineDashOffset, lineWidth}) {
         const halfWidth = this.width / 2;
         const halfHeight = this.height / 2;
+        const pixelSize = this._calculatePixelSizes();
 
         ctx.save();
         ctx.strokeStyle = strokeStyle;
@@ -300,9 +325,10 @@ const Cropzone = fabric.util.createClass(fabric.Rect, /** @lends Cropzone.protot
             ctx.lineDashOffset = lineDashOffset;
         }
         if (lineWidth) {
-            ctx.lineWidth = lineWidth;
+            ctx.lineWidth = Math.max(pixelSize.x, pixelSize.y) * lineWidth;
         }
 
+        this.cornerSize = Math.max(pixelSize.x, pixelSize.y) * this.options.cornerSize;
         ctx.beginPath();
         ctx.moveTo(-halfWidth, -halfHeight);
         ctx.lineTo(halfWidth, -halfHeight);
