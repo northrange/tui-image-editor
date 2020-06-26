@@ -489,7 +489,7 @@ $inputStraightenRange.on('mousedown', function() {
 });
 
 $inputStraightenRange.on('mouseup', function() {
-    imageEditor.stopDrawingMode();
+    imageEditor.startDrawingMode('LOCK');
 });
 
 $inputStraightenRange.on('change', function() {

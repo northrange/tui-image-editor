@@ -9,8 +9,8 @@ import StraightenGrid from '../extension/straightenGrid';
 import {componentNames as components} from '../consts';
 
 /**
- * Image Rotation component
- * @class Rotation
+ * Image Straightening component
+ * @class Straighten
  * @extends {Component}
  * @param {Graphics} graphics - Graphics instance
  * @ignore
@@ -101,7 +101,18 @@ class Straighten extends Component {
             absolutePositioned: true
         });
 
+        canvas.forEachObject(obj => {
+            if (obj !== this._straightenGrid) {
+                obj.set({clipPath: this._clipRect});
+            }
+        });
+
         if (this._straightenGrid) {
+            this._straightenGrid.set({
+                angle: 0,
+                left: 0,
+                top: 0
+            }).setCoords();
             this._straightenGrid.setClipRect(this._clipRect);
         }
 
@@ -115,8 +126,7 @@ class Straighten extends Component {
         const canvasImage = this.getCanvasImage();
 
         if (angle || angle === 0) {
-            canvasImage.set({angle}).setCoords();
-            this.adjustCanvasDimension();
+            this._rotation.setAngle(angle);
         }
 
         const projection = canvasImage.oCoords;
