@@ -119,7 +119,7 @@ class Line extends Component {
         });
 
         const options = extend({}, fObjectOptions.SELECTION_STYLE, {
-            cornerSize: this._calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
+            cornerSize: this.calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
         });
 
         this._line.set(options);
