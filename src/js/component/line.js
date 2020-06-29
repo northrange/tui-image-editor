@@ -5,6 +5,7 @@
 import fabric from 'fabric';
 import Component from '../interface/component';
 import {eventNames, componentNames, fObjectOptions} from '../consts';
+import {extend} from 'tui-code-snippet';
 
 /**
  * Line
@@ -117,7 +118,11 @@ class Line extends Component {
             evented: false
         });
 
-        this._line.set(fObjectOptions.SELECTION_STYLE);
+        const options = extend({}, fObjectOptions.SELECTION_STYLE, {
+            cornerSize: this._calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
+        });
+
+        this._line.set(options);
 
         canvas.add(this._line);
 

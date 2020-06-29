@@ -214,7 +214,9 @@ class Text extends Component {
         return new Promise(resolve => {
             const canvas = this.getCanvas();
             let newText = null;
-            let selectionStyle = fObjectOptions.SELECTION_STYLE;
+            let selectionStyle = snippet.extend({}, fObjectOptions.SELECTION_STYLE, {
+                cornerSize: this.calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
+            });
             let styles = this._defaultStyles;
 
             this._setInitPos(options.position);

@@ -123,6 +123,23 @@ class Component {
     adjustCanvasDimension() {
         this.graphics.adjustCanvasDimension();
     }
+
+    /**
+     * Calculate how many canvas pixels one on-screen-pixel takes
+     * @returns {cropzoneCoordinates} - {@link cropzoneCoordinates}
+     * @private
+     */
+    calculatePixelSize() {
+        const canvas = this.getCanvas();
+        const canvasWidth = canvas.getWidth();
+        const canvasHeight = canvas.getHeight();
+        const wrapperWidth = canvas.wrapperEl.offsetWidth;
+        const wrapperHeight = canvas.wrapperEl.offsetHeight;
+        const hPixelSize = canvasWidth / wrapperWidth;
+        const vPixelSize = canvasHeight / wrapperHeight;
+
+        return Math.max(hPixelSize, vPixelSize);
+    }
 }
 
 export default Component;

@@ -69,7 +69,9 @@ class Icon extends Component {
             icon.set(snippet.extend({
                 type: 'icon',
                 fill: this._oColor
-            }, selectionStyle, options, this.graphics.controlStyle));
+            }, selectionStyle, options, this.graphics.controlStyle, {
+                cornerSize: this.calculatePixelSize() * selectionStyle.cornerSize
+            }));
 
             canvas.add(icon).setActiveObject(icon);
 

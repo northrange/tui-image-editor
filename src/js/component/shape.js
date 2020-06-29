@@ -271,24 +271,7 @@ export default class Shape extends Component {
     }
 
     _adjustSelectionStyle(object, options) {
-        object.cornerSize = this._calculatePixelSize() * options.cornerSize;
-    }
-
-    /**
-     * Calculate how many canvas pixels one on-screen-pixel takes
-     * @returns {cropzoneCoordinates} - {@link cropzoneCoordinates}
-     * @private
-     */
-    _calculatePixelSize() {
-        const canvas = this.getCanvas();
-        const canvasWidth = canvas.getWidth();
-        const canvasHeight = canvas.getHeight();
-        const wrapperWidth = canvas.wrapperEl.offsetWidth;
-        const wrapperHeight = canvas.wrapperEl.offsetHeight;
-        const hPixelSize = canvasWidth / wrapperWidth;
-        const vPixelSize = canvasHeight / wrapperHeight;
-
-        return Math.max(hPixelSize, vPixelSize);
+        object.cornerSize = this.calculatePixelSize() * options.cornerSize;
     }
 
     /**

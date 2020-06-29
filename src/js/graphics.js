@@ -1118,7 +1118,9 @@ class Graphics {
         obj.path.set(extend({
             left,
             top
-        }, fObjectOptions.SELECTION_STYLE));
+        }, fObjectOptions.SELECTION_STYLE, {
+            cornerSize: this._calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
+        }));
 
         const params = this.createObjectProperties(obj.path);
 
@@ -1176,7 +1178,8 @@ class Graphics {
             'stroke',
             'strokeWidth',
             'opacity',
-            'angle'
+            'angle',
+            'aCoords'
         ];
         const props = {
             id: stamp(obj),
@@ -1321,7 +1324,9 @@ class Graphics {
             clonedObject.set(snippet.extend({
                 left: addExtraPx(left, rightEdge + EXTRA_PX_FOR_PASTE > canvasWidth),
                 top: addExtraPx(top, bottomEdge + EXTRA_PX_FOR_PASTE > canvasHeight)
-            }, fObjectOptions.SELECTION_STYLE));
+            }, fObjectOptions.SELECTION_STYLE, {
+                cornerSize: this._calculatePixelSize() * fObjectOptions.SELECTION_STYLE.cornerSize
+            }));
 
             return clonedObject;
         });
@@ -1339,6 +1344,18 @@ class Graphics {
                 resolve(cloned);
             });
         });
+    }
+
+    _calculatePixelSize() {
+        const canvas = this.getCanvas();
+        const canvasWidth = canvas.getWidth();
+        const canvasHeight = canvas.getHeight();
+        const wrapperWidth = canvas.wrapperEl.offsetWidth;
+        const wrapperHeight = canvas.wrapperEl.offsetHeight;
+        const hPixelSize = canvasWidth / wrapperWidth;
+        const vPixelSize = canvasHeight / wrapperHeight;
+
+        return Math.max(hPixelSize, vPixelSize);
     }
 }
 
