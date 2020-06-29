@@ -128,11 +128,16 @@ export declare interface IToDataURLOptions {
     height?: number;
 }
 
+export declare interface IPoint {
+    x: number;
+    y: number;
+}
+
 export declare interface IObjectCoordinates {
-    tl: Point,
-    tr: Point,
-    bl: Point,
-    br: Point
+    tl: IPoint,
+    tr: IPoint,
+    bl: IPoint,
+    br: IPoint
 }
 
 export declare interface IGraphicObjectProps {
