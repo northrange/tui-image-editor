@@ -154,7 +154,6 @@ export declare interface IGraphicObjectProps {
     textAlign?: string;
     textDecoration?: string;
     opacity?: number;
-    [propName: string]: number | string | boolean | undefined;
 }
 
 export declare interface IIncludeUIOptions {
