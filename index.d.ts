@@ -1,3 +1,5 @@
+import { Point } from "fabric/fabric-impl";
+
 export declare interface IThemeConfig {
     'common.bisize.width'?: string;
     'common.bisize.height'?: string;
@@ -126,9 +128,17 @@ export declare interface IToDataURLOptions {
     height?: number;
 }
 
+export declare interface IObjectCoordinates {
+    tl: Point,
+    tr: Point,
+    bl: Point,
+    br: Point
+}
+
 export declare interface IGraphicObjectProps {
     id?: number;
     type?: string;
+    coords: IObjectCoordinates,
     text?: string;
     left?: string | number;
     top?: string | number;
