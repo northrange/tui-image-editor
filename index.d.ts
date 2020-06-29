@@ -138,7 +138,7 @@ export declare interface IObjectCoordinates {
 export declare interface IGraphicObjectProps {
     id?: number;
     type?: string;
-    coords?: IObjectCoordinates;
+    aCoords?: IObjectCoordinates;
     text?: string;
     left?: string | number;
     top?: string | number;
