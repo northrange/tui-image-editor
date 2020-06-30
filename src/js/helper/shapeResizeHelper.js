@@ -205,8 +205,8 @@ module.exports = {
     resize(shape, pointer, isScaling) {
         if (hasCenterOrigin(shape)) {
             adjustOriginByStartPoint(pointer, shape);
+            setStartPoint(shape);
         }
-        setStartPoint(shape);
 
         if (isScaling) {
             adjustDimensionOnScaling(shape, pointer);

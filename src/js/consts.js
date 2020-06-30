@@ -149,8 +149,8 @@ export const fObjectOptions = {
         borderColor: 'red',
         cornerColor: 'green',
         cornerSize: 10,
-        originX: 'left',
-        originY: 'top',
+        originX: 'center',
+        originY: 'center',
         transparentCorners: false
     }
 };
