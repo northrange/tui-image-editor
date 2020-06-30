@@ -134,8 +134,8 @@ export declare interface IGraphicObjectProps {
     top?: number;
     width?: number;
     height?: number;
-    scaleX: number;
-    scaleY: number;
+    scaleX?: number;
+    scaleY?: number;
     fill?: string;
     stroke?: string;
     strokeWidth?: number;
