@@ -27,8 +27,8 @@ const SHAPE_INIT_OPTIONS = extend({
 }, SHAPE_DEFAULT_OPTIONS);
 
 const DEFAULT_TYPE = 'rect';
-const DEFAULT_WIDTH = 20;
-const DEFAULT_HEIGHT = 20;
+const DEFAULT_WIDTH = 100;
+const DEFAULT_HEIGHT = 100;
 
 const shapeType = ['rect', 'circle', 'triangle'];
 
