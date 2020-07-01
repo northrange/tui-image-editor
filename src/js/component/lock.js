@@ -21,6 +21,7 @@ class Lock extends Component {
      * Start locking.
      */
     start() {
+        this.getCanvas().discardActiveObject();
         this._setSelectionState(false);
     }
 

@@ -196,7 +196,7 @@ export default {
                 this.changeSelectableAll(true);
                 this.changeCursor('default');
             },
-            registDefalutIcons: (type, path) => {
+            registDefaultIcons: (type, path) => {
                 const iconObj = {};
                 iconObj[type] = path;
                 this.registerIcons(iconObj);

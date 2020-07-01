@@ -62,6 +62,7 @@ class Line extends Component {
             });
         });
 
+        this.graphics.getComponent(componentNames.LOCK).start();
         canvas.on({
             'mouse:down': this._listeners.mousedown
         });
@@ -99,6 +100,7 @@ class Line extends Component {
             });
         });
 
+        this.graphics.getComponent(componentNames.LOCK).end();
         canvas.off('mouse:down', this._listeners.mousedown);
     }
 
@@ -124,7 +126,7 @@ class Line extends Component {
 
         this._line.set(options);
 
-        canvas.add(this._line);
+        canvas.add(this._line).setActiveObject(this._line);
 
         canvas.on({
             'mouse:move': this._listeners.mousemove,

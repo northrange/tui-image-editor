@@ -88,7 +88,7 @@ class Icon extends Submenu {
      */
     registDefaultIcon() {
         snippet.forEach(defaultIconPath, (path, type) => {
-            this.actions.registDefalutIcons(type, path);
+            this.actions.registDefaultIcons(type, path);
         });
     }
 

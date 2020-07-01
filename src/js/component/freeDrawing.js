@@ -28,6 +28,15 @@ class FreeDrawing extends Component {
          * @type {fabric.Color}
          */
         this.oColor = new fabric.Color('rgba(0, 0, 0, 0.5)');
+
+        /**
+         * Listeners
+         * @type {object.<string, function>}
+         * @private
+         */
+        this._listeners = {
+            pathcreated: this._onFabricPathCreated.bind(this)
+        };
     }
 
     /**
@@ -39,6 +48,11 @@ class FreeDrawing extends Component {
 
         canvas.isDrawingMode = true;
         this.setBrush(setting);
+
+        this.graphics.getComponent(componentNames.LOCK).start();
+        canvas.on({
+            'path:created': this._listeners.pathcreated
+        });
     }
 
     /**
@@ -64,6 +78,18 @@ class FreeDrawing extends Component {
         const canvas = this.getCanvas();
 
         canvas.isDrawingMode = false;
+
+        this.graphics.getComponent(componentNames.LOCK).end();
+        canvas.off('path:created', this._listeners.pathcreated);
+    }
+
+    /**
+     * Mousedown event handler in fabric canvas
+     * @param {{path: fabric.Object}} obj - Fabric path object
+     * @private
+     */
+    _onFabricPathCreated(obj) {
+        this.getCanvas().setActiveObject(obj.path);
     }
 }
 

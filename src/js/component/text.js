@@ -155,6 +155,7 @@ class Text extends Component {
         }
 
         this.setCanvasRatio();
+        this.graphics.getComponent(componentNames.LOCK).start();
     }
 
     /**
@@ -186,6 +187,7 @@ class Text extends Component {
             this._removeTextarea();
         }
 
+        this.graphics.getComponent(componentNames.LOCK).end();
         canvas.off({
             'mouse:down': this._listeners.mousedown,
             'object:selected': this._listeners.select,
@@ -240,11 +242,7 @@ class Text extends Component {
                 mouseup: this._onFabricMouseUp.bind(this)
             });
 
-            canvas.add(newText);
-
-            if (!canvas.getActiveObject()) {
-                canvas.setActiveObject(newText);
-            }
+            canvas.add(newText).setActiveObject(newText);
 
             this.isPrevEditing = true;
             resolve(this.graphics.createObjectProperties(newText));

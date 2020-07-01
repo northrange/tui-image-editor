@@ -115,6 +115,7 @@ export default class Shape extends Component {
             'mouse:down': this._handlers.mousedown
         });
 
+        this.graphics.getComponent(componentNames.LOCK).start();
         fabric.util.addListener(document, 'keydown', this._handlers.keydown);
         fabric.util.addListener(document, 'keyup', this._handlers.keyup);
     }
@@ -136,6 +137,7 @@ export default class Shape extends Component {
             'mouse:down': this._handlers.mousedown
         });
 
+        this.graphics.getComponent(componentNames.LOCK).end();
         fabric.util.removeListener(document, 'keydown', this._handlers.keydown);
         fabric.util.removeListener(document, 'keyup', this._handlers.keyup);
     }
@@ -298,7 +300,6 @@ export default class Shape extends Component {
             deselected() {
                 self._isSelected = false;
                 self._shapeObj = null;
-                canvas.defaultCursor = 'crosshair';
                 canvas.uniScaleTransform = false;
             },
             modified() {
@@ -310,8 +311,6 @@ export default class Shape extends Component {
             scaling(fEvent) {
                 const pointer = canvas.getPointer(fEvent.e);
                 const currentObj = self._shapeObj;
-
-                canvas.setCursor('crosshair');
                 resizeHelper.resize(currentObj, pointer, true);
             }
         });
