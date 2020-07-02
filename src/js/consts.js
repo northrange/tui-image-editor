@@ -121,6 +121,7 @@ export const drawingModes = keyMirror(
     'LINE_DRAWING',
     'TEXT',
     'SHAPE',
+    'ICON',
     'LOCK'
 );
 

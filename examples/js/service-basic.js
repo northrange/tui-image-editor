@@ -213,7 +213,10 @@ function activateShapeMode() {
 }
 
 function activateIconMode() {
-    imageEditor.stopDrawingMode();
+    if (imageEditor.getDrawingMode() !== 'ICON') {
+        imageEditor.stopDrawingMode();
+        imageEditor.startDrawingMode('ICON');
+    }
 }
 
 function activateTextMode() {
@@ -702,6 +705,9 @@ $btnAddIcon.on('click', function() {
 function onClickIconSubMenu(event) {
     var element = event.target || event.srcElement;
     var iconType = $(element).attr('data-icon-type');
+    imageEditor.registerUniformlyScaledIcons({
+        'cancel': true
+    });
 
     imageEditor.once('mousedown', function(e, originPointer) {
         imageEditor.addIcon(iconType, {
@@ -719,7 +725,7 @@ $btnRegisterIcon.on('click', function() {
     );
 
     imageEditor.registerIcons({
-        customArrow: 'M 60 0 L 120 60 H 90 L 75 45 V 180 H 45 V 45 L 30 60 H 0 Z'
+        customArrow: 'M 60 0 L 120 60 H 90 L 75 45 V 180 H 45 V 45 L 30 60 H 0 Z',
     });
 
     $btnRegisterIcon.off('click');

@@ -21,6 +21,7 @@ import StraightenDrawingMode from './drawingMode/straighten';
 import FreeDrawingMode from './drawingMode/freeDrawing';
 import LineDrawingMode from './drawingMode/lineDrawing';
 import ShapeDrawingMode from './drawingMode/shape';
+import IconDrawingMode from './drawingMode/icon';
 import TextDrawingMode from './drawingMode/text';
 import {getProperties, Promise} from './util';
 import {componentNames as components, eventNames as events, drawingModes, fObjectOptions} from './consts';
@@ -709,6 +710,16 @@ class Graphics {
     }
 
     /**
+     * Register which icons should be uniformly scaled
+     * @param {Object} uniformScalingInfos - Uniform scaling infos
+     *  @param {string} pathInfos.key - key
+     *  @param {string} pathInfos.value - value
+     */
+    registerUniformScalingPaths(uniformScalingInfos) {
+        this.getComponent(components.ICON).registerUniformScalingPaths(uniformScalingInfos);
+    }
+
+    /**
      * Change cursor style
      * @param {string} cursorType - cursor type
      */
@@ -902,6 +913,7 @@ class Graphics {
         this._register(this._drawingModeMap, new FreeDrawingMode());
         this._register(this._drawingModeMap, new LineDrawingMode());
         this._register(this._drawingModeMap, new ShapeDrawingMode());
+        this._register(this._drawingModeMap, new IconDrawingMode());
         this._register(this._drawingModeMap, new TextDrawingMode());
         this._register(this._drawingModeMap, new LockDrawingMode());
     }

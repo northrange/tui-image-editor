@@ -37,11 +37,43 @@ class Icon extends Component {
          */
         this._pathMap = pathMap;
 
+        this._uniformScalingPathMap = {};
+
         /**
          * Option to add icon to drag.
          * @type {boolean}
          */
         this.useDragAddIcon = graphics.useDragAddIcon;
+    }
+
+    /**
+     * Start to draw the shape on canvas
+     * @ignore
+     */
+    start() {
+        const canvas = this.getCanvas();
+
+        this._isSelected = false;
+
+        canvas.defaultCursor = 'crosshair';
+        canvas.selection = false;
+
+        this.graphics.getComponent(componentNames.LOCK).start();
+    }
+
+    /**
+     * End to draw the shape on canvas
+     * @ignore
+     */
+    end() {
+        const canvas = this.getCanvas();
+
+        this._isSelected = false;
+
+        canvas.defaultCursor = 'default';
+        canvas.selection = true;
+
+        this.graphics.getComponent(componentNames.LOCK).end();
     }
 
     /**
@@ -57,6 +89,7 @@ class Icon extends Component {
         return new Promise((resolve, reject) => {
             const canvas = this.getCanvas();
             const path = this._pathMap[type];
+            const uniformScaling = this._uniformScalingPathMap[type] || false;
             const selectionStyle = fObjectOptions.SELECTION_STYLE;
             const registerdIcon = Object.keys(defaultIconPath).indexOf(type) >= 0;
             const useDragAddIcon = this.useDragAddIcon && registerdIcon;
@@ -68,7 +101,8 @@ class Icon extends Component {
 
             icon.set(snippet.extend({
                 type: 'icon',
-                fill: this._oColor
+                fill: this._oColor,
+                lockUniScaling: uniformScaling
             }, selectionStyle, options, this.graphics.controlStyle, {
                 cornerSize: this.calculatePixelSize() * selectionStyle.cornerSize
             }));
@@ -117,6 +151,16 @@ class Icon extends Component {
     registerPaths(pathInfos) {
         snippet.forEach(pathInfos, (path, type) => {
             this._pathMap[type] = path;
+        }, this);
+    }
+
+    /**
+     * Register which icon should be uniformly scaled
+     * @param {{key: string, value: boolean}} uniformScaling - Uniform scaling infos
+     */
+    registerUniformScalingPaths(uniformScaling) {
+        snippet.forEach(uniformScaling, (isUniformScaling, type) => {
+            this._uniformScalingPathMap[type] = isUniformScaling;
         }, this);
     }
 

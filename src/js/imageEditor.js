@@ -1284,6 +1284,19 @@ class ImageEditor {
     }
 
     /**
+     * Register which icons should be uniformly scaled
+     * @param {{iconType: string, isUniformlyScaled: boolean}} infos - Infos to register uniform scaling information
+     * @example
+     * imageEditor.registerUniformlyScaledIcons({
+     *     customIcon: false,
+     *     customArrow: true
+     * });
+     */
+    registerUniformlyScaledIcons(infos) {
+        this._graphics.registerUniformScalingPaths(infos);
+    }
+
+    /**
      * Change canvas cursor type
      * @param {string} cursorType - cursor type
      * @example
