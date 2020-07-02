@@ -709,7 +709,7 @@ function onClickIconSubMenu(event) {
         'cancel': true
     });
 
-    imageEditor.once('mousedown', function(e, originPointer) {
+    imageEditor.on('mousedown', function(e, originPointer) {
         imageEditor.addIcon(iconType, {
             left: originPointer.x,
             top: originPointer.y
@@ -725,7 +725,7 @@ $btnRegisterIcon.on('click', function() {
     );
 
     imageEditor.registerIcons({
-        customArrow: 'M 60 0 L 120 60 H 90 L 75 45 V 180 H 45 V 45 L 30 60 H 0 Z',
+        customArrow: 'M 60 0 L 120 60 H 90 L 75 45 V 180 H 45 V 45 L 30 60 H 0 Z'
     });
 
     $btnRegisterIcon.off('click');

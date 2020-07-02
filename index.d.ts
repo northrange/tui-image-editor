@@ -55,6 +55,10 @@ export declare interface IIconInfo {
     [propName: string]: string;
 }
 
+export declare interface IUniformScalingInfo {
+    [propName: string]: boolean;
+}
+
 export declare interface IIconOptions {
     fill?: string;
     left?: number;
@@ -296,6 +300,7 @@ export declare class ImageEditor {
     public loadImageFromURL(url: string, imageName?: string, silent?: boolean): Promise<ICropResolveObject>;
     public redo(): Promise<any>;
     public registerIcons(infos: IIconInfo): void;
+    public registerUniformlyScaledIcons(infos: IUniformScalingInfo): void;
     public removeActiveObject(): void;
     public removeFilter(type?: string): Promise<IFilterResolveObject>;
     public removeObject(id: number): Promise<void>;
