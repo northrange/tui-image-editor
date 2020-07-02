@@ -386,7 +386,9 @@ export default class Shape extends Component {
                 left: startPointX,
                 top: startPointY,
                 width: DEFAULT_WIDTH,
-                height: DEFAULT_HEIGHT
+                height: DEFAULT_HEIGHT,
+                rx: DEFAULT_WIDTH / 2,
+                ry: DEFAULT_HEIGHT / 2
             }).then(objectProps => {
                 this.fire(eventNames.ADD_OBJECT, objectProps);
             });
