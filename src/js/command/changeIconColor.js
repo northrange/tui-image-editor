@@ -39,9 +39,8 @@ const command = {
      */
     undo(graphics) {
         const iconComp = graphics.getComponent(ICON);
-        const {object: icon, color} = this.undoData.object;
 
-        iconComp.setColor(color, icon);
+        iconComp.setColor(this.undoData.color, this.undoData.object);
 
         return Promise.resolve();
     }

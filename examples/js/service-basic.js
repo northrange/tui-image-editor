@@ -709,7 +709,7 @@ function onClickIconSubMenu(event) {
         'cancel': true
     });
 
-    imageEditor.on('mousedown', function(e, originPointer) {
+    imageEditor.once('mousedown', function(e, originPointer) {
         imageEditor.addIcon(iconType, {
             left: originPointer.x,
             top: originPointer.y

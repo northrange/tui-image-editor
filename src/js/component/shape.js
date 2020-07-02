@@ -387,8 +387,8 @@ export default class Shape extends Component {
                 top: startPointY,
                 width: DEFAULT_WIDTH,
                 height: DEFAULT_HEIGHT,
-                rx: DEFAULT_WIDTH / 2,
-                ry: DEFAULT_HEIGHT / 2
+                rx: this._type === 'circle' ? DEFAULT_WIDTH / 2 : null,
+                ry: this._type === 'circle' ? DEFAULT_HEIGHT / 2 : null
             }).then(objectProps => {
                 this.fire(eventNames.ADD_OBJECT, objectProps);
             });
