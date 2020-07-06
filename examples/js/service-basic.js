@@ -705,9 +705,7 @@ $btnAddIcon.on('click', function() {
 function onClickIconSubMenu(event) {
     var element = event.target || event.srcElement;
     var iconType = $(element).attr('data-icon-type');
-    imageEditor.registerUniformlyScaledIcons({
-        'cancel': true
-    });
+    imageEditor.registerUniformlyScaledIcons({'cancel': true});
 
     imageEditor.once('mousedown', function(e, originPointer) {
         imageEditor.addIcon(iconType, {

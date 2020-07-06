@@ -13,13 +13,7 @@ const defaultStyles = {
     left: 0,
     top: 0
 };
-const resetStyles = {
-    fill: '#000000',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    textAlign: 'left',
-    underline: false
-};
+
 const {browser} = snippet;
 
 const TEXTAREA_CLASSNAME = 'tui-image-eidtor-textarea';
@@ -279,12 +273,6 @@ class Text extends Component {
      */
     setStyle(activeObj, styleObj) {
         return new Promise(resolve => {
-            snippet.forEach(styleObj, (val, key) => {
-                if (activeObj[key] === val && key !== 'fontSize') {
-                    styleObj[key] = resetStyles[key] || '';
-                }
-            }, this);
-
             if ('textDecoration' in styleObj) {
                 snippet.extend(styleObj, this._getTextDecorationAdaptObject(styleObj.textDecoration));
             }
