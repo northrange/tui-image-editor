@@ -186,7 +186,6 @@ class Text extends Component {
             'mouse:down': this._listeners.mousedown,
             'object:selected': this._listeners.select,
             'before:selection:cleared': this._listeners.selectClear,
-            'object:scaling': this._listeners.scaling,
             'text:editing': this._listeners.modify
         });
     }
@@ -502,6 +501,11 @@ class Text extends Component {
      */
     _onFabricScaling(fEvent) {
         const obj = fEvent.target;
+
+        if (obj && obj.type !== 'text' && obj.type !== 'i-text') {
+            return;
+        }
+
         const scalingSize = obj.fontSize * obj.scaleY;
 
         console.log(scalingSize);
