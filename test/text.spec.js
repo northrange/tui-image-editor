@@ -79,16 +79,6 @@ describe('Text', () => {
             });
         });
 
-        it('should unlock style when a selected style already apply on the activated text object.', () => {
-            const activeObj = canvas.getActiveObject();
-
-            text.setStyle(activeObj, {
-                fontWeight: 'bold'
-            });
-
-            expect(activeObj.fontWeight).not.toEqual('bold');
-        });
-
         it('should apply style when the activated text object has not a selected style.', () => {
             const activeObj = canvas.getActiveObject();
 
