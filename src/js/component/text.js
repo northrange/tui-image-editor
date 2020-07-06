@@ -218,6 +218,9 @@ class Text extends Component {
             this._setInitPos(options.position);
 
             if (options.styles) {
+                if ('textDecoration' in options.styles) {
+                    snippet.extend(options.styles, this._getTextDecorationAdaptObject(options.styles.textDecoration));
+                }
                 styles = snippet.extend(styles, options.styles);
             }
 
