@@ -508,7 +508,6 @@ class Text extends Component {
 
         const scalingSize = obj.fontSize * obj.scaleY;
 
-        console.log(scalingSize);
         obj.fontSize = scalingSize;
         obj.scaleX = 1;
         obj.scaleY = 1;
