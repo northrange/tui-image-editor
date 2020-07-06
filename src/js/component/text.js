@@ -125,6 +125,7 @@ class Text extends Component {
 
         canvas.selection = false;
         canvas.defaultCursor = 'text';
+        this.graphics.getComponent(componentNames.LOCK).start();
         canvas.on({
             'mouse:down': this._listeners.mousedown,
             'object:selected': this._listeners.select,
@@ -149,7 +150,6 @@ class Text extends Component {
         }
 
         this.setCanvasRatio();
-        this.graphics.getComponent(componentNames.LOCK).start();
     }
 
     /**
@@ -231,7 +231,9 @@ class Text extends Component {
                 newText = new fabric.Text(text, styles);
             }
 
-            newText.set(selectionStyle);
+            newText.set(snippet.extend({
+                lockUniScaling: true
+            }, selectionStyle));
             newText.on({
                 mouseup: this._onFabricMouseUp.bind(this)
             });
@@ -502,6 +504,7 @@ class Text extends Component {
         const obj = fEvent.target;
         const scalingSize = obj.fontSize * obj.scaleY;
 
+        console.log(scalingSize);
         obj.fontSize = scalingSize;
         obj.scaleX = 1;
         obj.scaleY = 1;
