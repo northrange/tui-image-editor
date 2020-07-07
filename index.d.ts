@@ -151,8 +151,10 @@ export declare interface IGraphicObjectProps {
     fontSize?: number;
     fontStyle?: string;
     fontWeight?: string;
+    lineHeight?: number;
     textAlign?: string;
     textDecoration?: string;
+    shadow?: string;
     opacity?: number;
 }
 
