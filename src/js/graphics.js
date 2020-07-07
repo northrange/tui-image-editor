@@ -1222,7 +1222,9 @@ class Graphics {
             'fontStyle',
             'textAlign',
             'textDecoration',
-            'fontWeight'
+            'fontWeight',
+            'lineHeight',
+            'shadow'
         ];
         const props = {};
         extend(props, getProperties(obj, predefinedKeys));
