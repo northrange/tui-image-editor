@@ -92,8 +92,12 @@ export declare interface ITextStyleConfig {
     fontSize?: number;
     fontStyle?: string;
     fontWeight?: string;
+    lineHeight?: number;
     textAlign?: string;
     textDecoration?: string;
+    shadow?: string;
+    stroke?: string;
+    strokeWidth?: number;
 }
 
 export declare interface IRectConfig {
