@@ -33,6 +33,13 @@ class Line extends Component {
         this._oColor = new fabric.Color('rgba(0, 0, 0, 0.5)');
 
         /**
+         * fabric.Shadow instance for brush shadow
+         * @type {fabric.Shadow}
+         * @private
+         */
+        this._oShadow = null;
+
+        /**
          * Listeners
          * @type {object.<string, function>}
          * @private
@@ -77,12 +84,14 @@ class Line extends Component {
 
         setting = setting || {};
         this._width = setting.width || this._width;
+        this._oShadow = setting.shadow ? new fabric.Shadow(setting.shadow) : this._oShadow;
 
         if (setting.color) {
             this._oColor = new fabric.Color(setting.color);
         }
         brush.width = this._width;
         brush.color = this._oColor.toRgba();
+        brush.shadow = this._oShadow;
     }
 
     /**
@@ -117,6 +126,7 @@ class Line extends Component {
         this._line = new fabric.Line(points, {
             stroke: this._oColor.toRgba(),
             strokeWidth: this._width,
+            shadow: this._oShadow,
             evented: false
         });
 

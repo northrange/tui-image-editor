@@ -125,6 +125,18 @@ export const drawingModes = keyMirror(
     'LOCK'
 );
 
+export const brushNames = keyMirror(
+    'PENCIL',
+    'CIRCLE',
+    'SPRAY',
+    'PATTERN',
+    'HLINE',
+    'VLINE',
+    'SQUARE',
+    'DIAMOND',
+    'TEXTURE'
+);
+
 /**
  * Shortcut key values
  * @type {Object.<string, number>}

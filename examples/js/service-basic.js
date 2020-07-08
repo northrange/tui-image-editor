@@ -89,6 +89,9 @@ var $imageFilterSubMenu = $('#image-filter-sub-menu');
 // Select line type
 var $selectLine = $('[name="select-line-type"]');
 
+// Select brush type
+var $selectBrushType = $('[name="select-brush-type"]');
+
 // Select shape type
 var $selectShapeType = $('[name="select-shape-type"]');
 
@@ -557,6 +560,12 @@ $selectLine.on('change', function() {
     } else {
         imageEditor.startDrawingMode('LINE_DRAWING', settings);
     }
+});
+
+$selectBrushType.on('change', function() {
+    imageEditor.setBrush({
+        brush: this.value
+    });
 });
 
 brushColorpicker.on('selectColor', function(event) {
