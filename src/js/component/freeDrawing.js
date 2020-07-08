@@ -91,7 +91,7 @@ class FreeDrawing extends Component {
         }
         brush.width = this.width;
         brush.color = this.oColor.toRgba();
-        brush.shadow = settings.shadow ? new fabric.Shadow(setting.shadow) : null;
+        brush.shadow = setting.shadow ? new fabric.Shadow(setting.shadow) : null;
     }
 
     /**
