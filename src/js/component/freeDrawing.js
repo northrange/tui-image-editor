@@ -74,6 +74,8 @@ class FreeDrawing extends Component {
         const canvas = this.getCanvas();
         const oldBrush = canvas.freeDrawingBrush;
 
+        setting = setting || {};
+
         if (setting.brush && this._brushMap[setting.brush]) {
             canvas.freeDrawingBrush = this._brushMap[setting.brush];
             canvas.freeDrawingBrush.color = oldBrush.color;
@@ -83,7 +85,6 @@ class FreeDrawing extends Component {
 
         const brush = canvas.freeDrawingBrush;
 
-        setting = setting || {};
         this.width = setting.width || this.width;
         if (setting.color) {
             this.oColor = new fabric.Color(setting.color);
