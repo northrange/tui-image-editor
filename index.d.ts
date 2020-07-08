@@ -95,7 +95,7 @@ export declare interface ITextStyleConfig {
     lineHeight?: number;
     textAlign?: string;
     textDecoration?: string;
-    shadow?: string;
+    shadow?: IShadowOptions;
     stroke?: string;
     strokeWidth?: number;
 }
@@ -129,6 +129,7 @@ export declare interface IShadowOptions {
     blur?: number;
     offsetX?: number;
     offsetY?: number;
+    affectStroke?: boolean;
 }
 
 export declare interface IToDataURLOptions {
