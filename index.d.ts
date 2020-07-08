@@ -124,6 +124,13 @@ export declare interface IPositionConfig {
     originY: string;
 }
 
+export declare interface IShadowOptions {
+    color?: string;
+    blur?: number;
+    offsetX?: number;
+    offsetY?: number;
+}
+
 export declare interface IToDataURLOptions {
     format?: string;
     quality?: number;
@@ -154,7 +161,7 @@ export declare interface IGraphicObjectProps {
     lineHeight?: number;
     textAlign?: string;
     textDecoration?: string;
-    shadow?: string;
+    shadow?: IShadowOptions;
     opacity?: number;
 }
 
