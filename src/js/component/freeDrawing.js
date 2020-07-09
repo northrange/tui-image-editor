@@ -139,21 +139,17 @@ class FreeDrawing extends Component {
         const hLinePatternBrush = new fabric.PatternBrush(this.getCanvas());
 
         hLinePatternBrush.getPatternSrc = function(color) {
-            const patternCanvas = document.createElement('canvas');
+            const patternCanvas = fabric.document.createElement('canvas');
             patternCanvas.width = patternCanvas.height = 10;
             const ctx = patternCanvas.getContext('2d');
 
-            ctx.lineWidth = 5;
             ctx.strokeStyle = color || this.color;
+            ctx.lineWidth = 5;
             ctx.beginPath();
-            ctx.moveTo(5, 0);
-            ctx.lineTo(5, 10);
+            ctx.moveTo(0, 5);
+            ctx.lineTo(10, 5);
             ctx.closePath();
             ctx.stroke();
-
-            if (!this.color) {
-                color = null;
-            }
 
             return patternCanvas;
         };
@@ -168,15 +164,15 @@ class FreeDrawing extends Component {
         const vLinePatternBrush = new fabric.PatternBrush(this.getCanvas());
 
         vLinePatternBrush.getPatternSrc = function(color) {
-            const patternCanvas = fabric.document.createElement('canvas');
+            const patternCanvas = document.createElement('canvas');
             patternCanvas.width = patternCanvas.height = 10;
             const ctx = patternCanvas.getContext('2d');
 
-            ctx.strokeStyle = color || this.color;
             ctx.lineWidth = 5;
+            ctx.strokeStyle = color || this.color;
             ctx.beginPath();
-            ctx.moveTo(0, 5);
-            ctx.lineTo(10, 5);
+            ctx.moveTo(5, 0);
+            ctx.lineTo(5, 10);
             ctx.closePath();
             ctx.stroke();
 
