@@ -278,7 +278,7 @@ class Graphics {
         const objects = [];
         const canvas = this._canvas;
         const target = this.getObject(id);
-        const isValidGroup = target && target.isType('group') && !Object.hasOwnProperty('originX') && !target.isEmpty();
+        const isValidGroup = target && target.isType('group') && !target.hasOwnProperty('originX') && !target.isEmpty();
 
         if (isValidGroup) {
             canvas.discardActiveObject(); // restore states for each objects
