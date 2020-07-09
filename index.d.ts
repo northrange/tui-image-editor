@@ -76,6 +76,7 @@ export declare interface IShapeOptions {
     left?: number;
     top?: number;
     isRegular?: boolean;
+    shadow?: IShadowOptions;
 }
 
 export declare interface IGenerateTextOptions {

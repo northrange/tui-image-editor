@@ -278,15 +278,8 @@ class Graphics {
         const objects = [];
         const canvas = this._canvas;
         const target = this.getObject(id);
-        const isValidGroup = target && target.isType('group') && !target.isEmpty();
 
-        if (isValidGroup) {
-            canvas.discardActiveObject(); // restore states for each objects
-            target.forEachObject(obj => {
-                objects.push(obj);
-                canvas.remove(obj);
-            });
-        } else if (canvas.contains(target)) {
+        if (canvas.contains(target)) {
             objects.push(target);
             canvas.remove(target);
         }
