@@ -1,4 +1,4 @@
-export enum DrawingMode {
+export const enum DrawingMode {
     CROPPING = 'CROPPER',
     FREE_DRAWING = 'FREE_DRAWING',
     ICON = 'ICON',
@@ -9,7 +9,7 @@ export enum DrawingMode {
     TEXT = 'TEXT'
 }
 
-export enum EditorCommands {
+export const enum EditorCommands {
     CLEAR_OBJECTS = 'clearObjects',
     LOAD_IMAGE = 'loadImage',
     CROP_IMAGE = 'cropImage',
@@ -32,7 +32,7 @@ export enum EditorCommands {
     SET_OBJECT_POSITION = 'setObjectPosition'
 }
 
-export enum EditorEvents {
+export const enum EditorEvents {
     ADD_TEXT = 'addText',
     MOUSEDOWN = 'mousedown',
     OBJECT_ACTIVATED = 'objectActivated',
@@ -45,7 +45,7 @@ export enum EditorEvents {
     SELECTION_CLEARED = 'selectionCleared'
 }
 
-export enum BrushType {
+export const enum BrushType {
     PENCIL = 'PENCIL',
     CIRCLE = 'CIRCLE',
     SPRAY = 'SPRAY',
