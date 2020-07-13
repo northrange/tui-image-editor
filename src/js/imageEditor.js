@@ -1434,6 +1434,16 @@ class ImageEditor {
     }
 
     /**
+     * Gets the image instance.
+     * @returns {fabric.Image} image instance
+     * @example
+     * console.log(imageEditor.getImage());
+     */
+    getImage() {
+        return this._graphics.getCanvasImage();
+    }
+
+    /**
      * Get image name
      * @returns {string} image name
      * @example
