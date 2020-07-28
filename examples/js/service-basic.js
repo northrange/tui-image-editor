@@ -66,6 +66,7 @@ var $inputCheckNoise = $('#input-check-noise');
 var $inputRangeNoiseValue = $('#input-range-noise-value');
 var $inputCheckPixelate = $('#input-check-pixelate');
 var $inputRangePixelateValue = $('#input-range-pixelate-value');
+var $inputCheckToaster = $('#input-check-toaster');
 var $inputCheckTint = $('#input-check-tint');
 var $inputRangeTintOpacityValue = $('#input-range-tint-opacity-value');
 var $inputCheckMultiply = $('#input-check-multiply');
@@ -103,8 +104,8 @@ var $selectBlendType = $('[name="select-blend-type"]');
 
 // Image editor
 var imageEditor = new tui.editor.ImageEditor('.tui-image-editor', {
-    cssMaxWidth: 700,
-    cssMaxHeight: 500,
+    cssMaxWidth: 900,
+    cssMaxHeight: 800,
     useItext: true,
     selectionStyle: {
         borderColor: '#ffffff',
@@ -894,6 +895,10 @@ $inputRangePixelateValue.on('change', function() {
     });
 });
 
+$inputCheckToaster.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'toaster');
+});
+
 $inputCheckTint.on('change', function() {
     applyOrRemoveFilter(this.checked, 'tint', {
         color: tintColorpicker.getColor(),
@@ -926,20 +931,20 @@ multiplyColorpicker.on('selectColor', function() {
 });
 
 $inputCheckBlend.on('change', function() {
-    applyOrRemoveFilter(this.checked, 'blend', {
+    applyOrRemoveFilter(this.checked, 'blendColor', {
         color: blendColorpicker.getColor(),
         mode: $selectBlendType.val()
     });
 });
 
 blendColorpicker.on('selectColor', function(e) {
-    applyOrRemoveFilter($inputCheckBlend.is(':checked'), 'blend', {
+    applyOrRemoveFilter($inputCheckBlend.is(':checked'), 'blendColor', {
         color: e.color
     });
 });
 
 $selectBlendType.on('change', function() {
-    applyOrRemoveFilter($inputCheckBlend.is(':checked'), 'blend', {
+    applyOrRemoveFilter($inputCheckBlend.is(':checked'), 'blendColor', {
         mode: this.value
     });
 });
@@ -960,7 +965,7 @@ $inputRangeColorFilterValue.on('change', function() {
 // Etc..
 
 // Load sample image
-imageEditor.loadImageFromURL('img/sampleImage.jpg', 'SampleImage').then(function(sizeValue) {
+imageEditor.loadImageFromURL('img/sampleImage3.jpg', 'SampleImage').then(function(sizeValue) {
     console.log(sizeValue);
     imageEditor.clearUndoStack();
 });

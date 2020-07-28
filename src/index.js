@@ -1,6 +1,8 @@
 import './js/polyfill';
 import './css/index.styl';
 import imageEditor from './js/imageEditor';
+// filters
+import './js/filter/toaster';
 
 // commands
 import './js/command/addIcon';
