@@ -2,6 +2,10 @@ import './js/polyfill';
 import './css/index.styl';
 import imageEditor from './js/imageEditor';
 // filters
+import './js/filter/1977';
+import './js/filter/amaro';
+import './js/filter/brooklyn';
+import './js/filter/clarendon';
 import './js/filter/toaster';
 
 // commands

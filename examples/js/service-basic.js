@@ -66,6 +66,10 @@ var $inputCheckNoise = $('#input-check-noise');
 var $inputRangeNoiseValue = $('#input-range-noise-value');
 var $inputCheckPixelate = $('#input-check-pixelate');
 var $inputRangePixelateValue = $('#input-range-pixelate-value');
+var $inputCheck1977 = $('#input-check-1977');
+var $inputCheckAmaro = $('#input-check-amaro');
+var $inputCheckBrooklyn = $('#input-check-brooklyn');
+var $inputCheckClarendon = $('#input-check-clarendon');
 var $inputCheckToaster = $('#input-check-toaster');
 var $inputCheckTint = $('#input-check-tint');
 var $inputRangeTintOpacityValue = $('#input-range-tint-opacity-value');
@@ -893,6 +897,22 @@ $inputRangePixelateValue.on('change', function() {
     applyOrRemoveFilter($inputCheckPixelate.is(':checked'), 'pixelate', {
         blocksize: parseInt(this.value, 10)
     });
+});
+
+$inputCheck1977.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'f1977');
+});
+
+$inputCheckAmaro.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'amaro');
+});
+
+$inputCheckBrooklyn.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'brooklyn');
+});
+
+$inputCheckClarendon.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'clarendon');
 });
 
 $inputCheckToaster.on('change', function() {

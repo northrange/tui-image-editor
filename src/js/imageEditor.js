@@ -4,8 +4,6 @@
  */
 import snippet from 'tui-code-snippet';
 import Invoker from './invoker';
-import UI from './ui';
-import action from './action';
 import commandFactory from './factory/command';
 import Graphics from './graphics';
 import {sendHostName, Promise} from './util';
@@ -87,17 +85,6 @@ const {
  * @class
  * @param {string|HTMLElement} wrapper - Wrapper's element or selector
  * @param {Object} [options] - Canvas max width & height of css
- *  @param {number} [options.includeUI] - Use the provided UI
- *    @param {Object} [options.includeUI.loadImage] - Basic editing image
- *      @param {string} options.includeUI.loadImage.path - image path
- *      @param {string} options.includeUI.loadImage.name - image name
- *    @param {Object} [options.includeUI.theme] - Theme object
- *    @param {Array} [options.includeUI.menu] - It can be selected when only specific menu is used, Default values are \['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'\].
- *    @param {string} [options.includeUI.initMenu] - The first menu to be selected and started.
- *    @param {Object} [options.includeUI.uiSize] - ui size of editor
- *      @param {string} options.includeUI.uiSize.width - width of ui
- *      @param {string} options.includeUI.uiSize.height - height of ui
- *    @param {string} [options.includeUI.menuBarPosition=bottom] - Menu bar position('top', 'bottom', 'left', 'right')
  *  @param {number} options.cssMaxWidth - Canvas css-max-width
  *  @param {number} options.cssMaxHeight - Canvas css-max-height
  *  @param {Object} [options.selectionStyle] - selection style
@@ -114,20 +101,6 @@ const {
  * var ImageEditor = require('tui-image-editor');
  * var blackTheme = require('./js/theme/black-theme.js');
  * var instance = new ImageEditor(document.querySelector('#tui-image-editor'), {
- *   includeUI: {
- *     loadImage: {
- *       path: 'img/sampleImage.jpg',
- *       name: 'SampleImage'
- *     },
- *     theme: blackTheme, // or whiteTheme
- *     menu: ['shape', 'filter'],
- *     initMenu: 'filter',
- *     uiSize: {
- *         width: '1000px',
- *         height: '700px'
- *     },
- *     menuBarPosition: 'bottom'
- *   },
  *   cssMaxWidth: 700,
  *   cssMaxHeight: 500,
  *   selectionStyle: {
@@ -139,21 +112,12 @@ const {
 class ImageEditor {
     constructor(wrapper, options) {
         options = snippet.extend({
-            includeUI: false,
-            usageStatistics: true
+            usageStatistics: false
         }, options);
 
         this.mode = null;
 
         this.activeObjectId = null;
-
-        if (options.includeUI) {
-            const UIOption = options.includeUI;
-            UIOption.usageStatistics = options.usageStatistics;
-
-            this.ui = new UI(wrapper, UIOption, this.getActions());
-            options = this.ui.setUiDefaultSelectionStyle(options);
-        }
 
         /**
          * Invoker
@@ -170,14 +134,12 @@ class ImageEditor {
          * @type {Graphics}
          * @private
          */
-        this._graphics = new Graphics(
-            this.ui ? this.ui.getEditorArea() : wrapper, {
-                cssMaxWidth: options.cssMaxWidth,
-                cssMaxHeight: options.cssMaxHeight,
-                useItext: options.useItext,
-                useDragAddIcon: !!this.ui
-            }
-        );
+        this._graphics = new Graphics(wrapper, {
+            cssMaxWidth: options.cssMaxWidth,
+            cssMaxHeight: options.cssMaxHeight,
+            useItext: options.useItext,
+            useDragAddIcon: false
+        });
 
         /**
          * Event handler list
@@ -218,10 +180,6 @@ class ImageEditor {
             sendHostName();
         }
 
-        if (this.ui) {
-            this.ui.initCanvas();
-            this.setReAction();
-        }
         fabric.enableGLFiltering = false;
     }
 
@@ -1513,10 +1471,6 @@ class ImageEditor {
         this._graphics.destroy();
         this._graphics = null;
 
-        if (this.ui) {
-            this.ui.destroy();
-        }
-
         forEach(this, (value, key) => {
             this[key] = null;
         }, this);
@@ -1684,7 +1638,6 @@ class ImageEditor {
     }
 }
 
-action.mixin(ImageEditor);
 CustomEvents.mixin(ImageEditor);
 
 export default ImageEditor;
