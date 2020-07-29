@@ -304,7 +304,7 @@ export declare class ImageEditor {
     public getCanvasSize(): ICanvasSize;
     public getCropzoneRect(): IRectConfig;
     public getDrawingMode(): string;
-    public getImage(): Image;
+    public getImage(): any;
     public getImageName(): string;
     public getObjectPosition(id: number, originX: string, originY: string): ICanvasSize;
     public getObjectProperties(id: number, keys: string | string[] | IGraphicObjectProps): IGraphicObjectProps;
