@@ -6,7 +6,16 @@ import './js/filter/1977';
 import './js/filter/amaro';
 import './js/filter/brooklyn';
 import './js/filter/clarendon';
+import './js/filter/gingham';
+import './js/filter/inkwell';
+import './js/filter/kelvin';
+import './js/filter/lark';
+import './js/filter/lofi';
+import './js/filter/moon';
+import './js/filter/nashville';
+import './js/filter/perpetua';
 import './js/filter/toaster';
+import './js/filter/walden';
 
 // commands
 import './js/command/addIcon';

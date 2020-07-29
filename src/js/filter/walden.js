@@ -1,27 +1,33 @@
 /**
  * @author NorthRange Development Team
- * @fileoverview Clarendon filter
+ * @fileoverview Walden filter
  */
 import fabric from 'fabric';
 
 /* eslint-disable no-mixed-operators */
-fabric.Image.filters.Clarendon = fabric.util.createClass(fabric.Image.filters.BaseFilter,
+fabric.Image.filters.Walden = fabric.util.createClass(fabric.Image.filters.BaseFilter,
     /** @lends fabric.Image.filters.Blend.prototype */ {
-        type: 'Clarendon',
+        type: 'Walden',
 
         blendFilter: new fabric.Image.filters.BlendColor({
-            color: '#7fbbe3',
+            color: '#0044cc',
             mode: 'screen',
-            alpha: 0.2
+            alpha: 0.3
         }),
 
-        contrastFilter: new fabric.Image.filters.Contrast({
-            contrast: 0.15
+        brightnessFilter: new fabric.Image.filters.Brightness({
+            brightness: 0.06
+        }),
+
+        hueRotationFilter: new fabric.Image.filters.HueRotation({
+            rotation: -10 / 180
         }),
 
         saturationFilter: new fabric.Image.filters.Saturation({
-            saturation: 0.35
+            saturation: 0.2
         }),
+
+        texture: document.createElement('canvas'),
 
         /**
          * Apply the Blend operation to a Uint8ClampedArray representing the pixels of an image.
@@ -30,10 +36,11 @@ fabric.Image.filters.Clarendon = fabric.util.createClass(fabric.Image.filters.Ba
          */
         applyTo2d(options) {
             this.blendFilter.applyTo2d(options);
-            this.contrastFilter.applyTo2d(options);
+            this.brightnessFilter.applyTo2d(options);
+            this.hueRotationFilter.applyTo(options);
             this.saturationFilter.applyTo2d(options);
         }
     }
 );
 
-fabric.Image.filters.Clarendon.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+fabric.Image.filters.Walden.fromObject = fabric.Image.filters.BaseFilter.fromObject;

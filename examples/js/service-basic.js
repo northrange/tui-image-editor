@@ -53,7 +53,6 @@ var $inputCheckTransparent = $('#input-check-transparent');
 var $inputCheckGrayscale = $('#input-check-grayscale');
 var $inputCheckInvert = $('#input-check-invert');
 var $inputCheckSepia = $('#input-check-sepia');
-var $inputCheckSepia2 = $('#input-check-sepia2');
 var $inputCheckBlur = $('#input-check-blur');
 var $inputCheckSharpen = $('#input-check-sharpen');
 var $inputCheckEmboss = $('#input-check-emboss');
@@ -70,13 +69,23 @@ var $inputCheck1977 = $('#input-check-1977');
 var $inputCheckAmaro = $('#input-check-amaro');
 var $inputCheckBrooklyn = $('#input-check-brooklyn');
 var $inputCheckClarendon = $('#input-check-clarendon');
+var $inputCheckGingham = $('#input-check-gingham');
+var $inputCheckInkwell = $('#input-check-inkwell');
+var $inputCheckKelvin = $('#input-check-kelvin');
+var $inputCheckLark = $('#input-check-lark');
+var $inputCheckLofi = $('#input-check-lofi');
+var $inputCheckMoon = $('#input-check-moon');
+var $inputCheckNashville = $('#input-check-nashville');
+var $inputCheckPerpetua = $('#input-check-perpetua');
 var $inputCheckToaster = $('#input-check-toaster');
+var $inputCheckWalden = $('#input-check-walden');
 var $inputCheckTint = $('#input-check-tint');
 var $inputRangeTintOpacityValue = $('#input-range-tint-opacity-value');
 var $inputCheckMultiply = $('#input-check-multiply');
 var $inputCheckBlend = $('#input-check-blend');
 var $inputCheckColorFilter = $('#input-check-color-filter');
 var $inputRangeColorFilterValue = $('#input-range-color-filter-value');
+var $instagramImage = $('#instagram-img');
 
 // Sub menus
 var $displayingSubMenu = $();
@@ -293,8 +302,11 @@ function showSubMenu(type) {
     $displayingSubMenu = $submenu.show();
 }
 
-function applyOrRemoveFilter(applying, type, options) {
+function applyOrRemoveFilter(applying, type, options, instagramFilter) {
+    $instagramImage.removeClass();
+
     if (applying) {
+        $instagramImage.addClass(instagramFilter || type);
         imageEditor.applyFilter(type, options).then(function(result) {
             console.log(result);
         });
@@ -764,7 +776,6 @@ $btnImageFilter.on('click', function() {
         'grayscale': $inputCheckGrayscale,
         'invert': $inputCheckInvert,
         'sepia': $inputCheckSepia,
-        'sepia2': $inputCheckSepia2,
         'blur': $inputCheckBlur,
         'shapren': $inputCheckSharpen,
         'emboss': $inputCheckEmboss,
@@ -826,10 +837,6 @@ $inputCheckInvert.on('change', function() {
 
 $inputCheckSepia.on('change', function() {
     applyOrRemoveFilter(this.checked, 'Sepia', null);
-});
-
-$inputCheckSepia2.on('change', function() {
-    applyOrRemoveFilter(this.checked, 'Sepia2', null);
 });
 
 $inputCheckBlur.on('change', function() {
@@ -900,7 +907,7 @@ $inputRangePixelateValue.on('change', function() {
 });
 
 $inputCheck1977.on('change', function() {
-    applyOrRemoveFilter(this.checked, 'f1977');
+    applyOrRemoveFilter(this.checked, 'f1977', null, '_1977');
 });
 
 $inputCheckAmaro.on('change', function() {
@@ -915,8 +922,44 @@ $inputCheckClarendon.on('change', function() {
     applyOrRemoveFilter(this.checked, 'clarendon');
 });
 
+$inputCheckGingham.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'gingham');
+});
+
+$inputCheckInkwell.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'inkwell');
+});
+
+$inputCheckKelvin.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'kelvin');
+});
+
+$inputCheckLark.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'lark');
+});
+
+$inputCheckLofi.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'lofi');
+});
+
+$inputCheckMoon.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'moon');
+});
+
+$inputCheckNashville.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'nashville');
+});
+
+$inputCheckPerpetua.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'perpetua');
+});
+
 $inputCheckToaster.on('change', function() {
     applyOrRemoveFilter(this.checked, 'toaster');
+});
+
+$inputCheckWalden.on('change', function() {
+    applyOrRemoveFilter(this.checked, 'walden');
 });
 
 $inputCheckTint.on('change', function() {

@@ -1,20 +1,17 @@
 /**
  * @author NorthRange Development Team
- * @fileoverview Brookly filter
+ * @fileoverview Brooklyn filter
  */
 import fabric from 'fabric';
+import {blend, overlay} from './functions';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Brooklyn = fabric.util.createClass(fabric.Image.filters.BaseFilter,
     /** @lends fabric.Image.filters.Blend.prototype */ {
         type: 'Brooklyn',
 
-        contrastFilter: new fabric.Image.filters.Contrast({
-            contrast: 0.02
-        }),
-
         brightnessFilter: new fabric.Image.filters.Brightness({
-            brightness: -0.04
+            brightness: -0.05
         }),
 
         texture: document.createElement('canvas'),
@@ -27,19 +24,15 @@ fabric.Image.filters.Brooklyn = fabric.util.createClass(fabric.Image.filters.Bas
         applyTo2d(options) {
             const width = options.sourceWidth;
             const height = options.sourceHeight;
-            const gradient = this.toasterGradient(width, height);
-            const gradientImageData = gradient.getImageData(0, 0, width, height);
+            const topLayer = this.createTopLayer(width, height);
+            const topLayerImageData = topLayer.getImageData(0, 0, width, height);
 
-            this.blend(options.imageData, gradientImageData,
-                (bottomPixel, topPixel) => bottomPixel < 128
-                    ? 2 * bottomPixel * topPixel / 255
-                    : 255 - 2 * (255 - topPixel) * (255 - bottomPixel) / 255);
+            blend(options.imageData, topLayerImageData, overlay);
 
-            this.contrastFilter.applyTo2d(options);
             this.brightnessFilter.applyTo2d(options);
         },
 
-        toasterGradient(width, height) {
+        createTopLayer(width, height) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
@@ -54,24 +47,6 @@ fabric.Image.filters.Brooklyn = fabric.util.createClass(fabric.Image.filters.Bas
             ctx.fillRect(0, 0, width, height);
 
             return ctx;
-        },
-
-        blend(backgroundData, foregroundData, transform) {
-            transform(0, 0);
-            for (let i = 0, size = backgroundData.data.length; i < size; i += 4) {
-                // red
-                // backgroundData.data[i] = foregroundData.data[i]; // transform(backgroundData.data[i], foregroundData.data[i]);
-                backgroundData.data[i] = transform(backgroundData.data[i], foregroundData.data[i]);
-                // green
-                // backgroundData.data[i + 1] = foregroundData.data[i + 1]; // transform(backgroundData.data[i + 1], foregroundData.data[i + 1]);
-                backgroundData.data[i + 1] = transform(backgroundData.data[i + 1], foregroundData.data[i + 1]);
-                // blue
-                // backgroundData.data[i + 2] = foregroundData.data[i + 2]; // transform(backgroundData.data[i + 2], foregroundData.data[i + 2]);
-                backgroundData.data[i + 2] = transform(backgroundData.data[i + 2], foregroundData.data[i + 2]);
-                // the fourth slot is alpha. We don't need that (so skip by 4)
-            }
-
-            return backgroundData;
         }
     }
 );

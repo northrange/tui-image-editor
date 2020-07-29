@@ -1,22 +1,14 @@
 /**
  * @author NorthRange Development Team
- * @fileoverview Toaster filter
+ * @fileoverview Perpetua filter
  */
 import fabric from 'fabric';
-import {blend} from './functions';
+import {blend, softLight} from './functions';
 
 /* eslint-disable no-mixed-operators */
-fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.BaseFilter,
+fabric.Image.filters.Perpetua = fabric.util.createClass(fabric.Image.filters.BaseFilter,
     /** @lends fabric.Image.filters.Blend.prototype */ {
-        type: 'Toaster',
-
-        contrastFilter: new fabric.Image.filters.Contrast({
-            contrast: 0.17
-        }),
-
-        brightnessFilter: new fabric.Image.filters.Brightness({
-            brightness: -0.08
-        }),
+        type: 'Perpetua',
 
         texture: document.createElement('canvas'),
 
@@ -31,11 +23,7 @@ fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.Base
             const topLayer = this.createTopLayer(width, height);
             const topLayerImageData = topLayer.getImageData(0, 0, width, height);
 
-            blend(options.imageData, topLayerImageData,
-                (bottomPixel, topPixel) => 255 - (255 - topPixel) * (255 - bottomPixel) / 255);
-
-            this.contrastFilter.applyTo2d(options);
-            this.brightnessFilter.applyTo2d(options);
+            blend(options.imageData, topLayerImageData, softLight);
         },
 
         createTopLayer(width, height) {
@@ -44,10 +32,10 @@ fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.Base
 
             canvas.width = width;
             canvas.height = height;
-            const gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width * 0.6);
+            const gradient = ctx.createLinearGradient(0, -height / 2, 0, 2 * height);
 
-            gradient.addColorStop(0, '#804e0f');
-            gradient.addColorStop(1, '#3b003b');
+            gradient.addColorStop(0, '#005b9a');
+            gradient.addColorStop(1, '#e6c13d');
 
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
@@ -57,4 +45,4 @@ fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.Base
     }
 );
 
-fabric.Image.filters.Toaster.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+fabric.Image.filters.Perpetua.fromObject = fabric.Image.filters.BaseFilter.fromObject;

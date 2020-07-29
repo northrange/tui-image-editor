@@ -1,21 +1,30 @@
 /**
  * @author NorthRange Development Team
- * @fileoverview Toaster filter
+ * @fileoverview Moon filter
  */
 import fabric from 'fabric';
-import {blend} from './functions';
+import {blend, softLight} from './functions';
 
 /* eslint-disable no-mixed-operators */
-fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.BaseFilter,
+fabric.Image.filters.Moon = fabric.util.createClass(fabric.Image.filters.BaseFilter,
     /** @lends fabric.Image.filters.Blend.prototype */ {
-        type: 'Toaster',
+        type: 'Moon',
+
+        blendFilter: new fabric.Image.filters.BlendColor({
+            color: '#383838',
+            mode: 'lighten'
+        }),
+
+        grayscaleFilter: new fabric.Image.filters.Grayscale({
+            mode: 'luminosity'
+        }),
 
         contrastFilter: new fabric.Image.filters.Contrast({
-            contrast: 0.17
+            contrast: 0.1
         }),
 
         brightnessFilter: new fabric.Image.filters.Brightness({
-            brightness: -0.08
+            brightness: 0.1
         }),
 
         texture: document.createElement('canvas'),
@@ -28,28 +37,24 @@ fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.Base
         applyTo2d(options) {
             const width = options.sourceWidth;
             const height = options.sourceHeight;
-            const topLayer = this.createTopLayer(width, height);
+            const topLayer = this.createTopLayer(width, height, '#a0a0a0');
             const topLayerImageData = topLayer.getImageData(0, 0, width, height);
 
-            blend(options.imageData, topLayerImageData,
-                (bottomPixel, topPixel) => 255 - (255 - topPixel) * (255 - bottomPixel) / 255);
-
+            blend(options.imageData, topLayerImageData, softLight);
+            this.blendFilter.applyTo2d(options);
+            this.grayscaleFilter.applyTo2d(options);
             this.contrastFilter.applyTo2d(options);
             this.brightnessFilter.applyTo2d(options);
         },
 
-        createTopLayer(width, height) {
+        createTopLayer(width, height, color) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
             canvas.width = width;
             canvas.height = height;
-            const gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, width * 0.6);
 
-            gradient.addColorStop(0, '#804e0f');
-            gradient.addColorStop(1, '#3b003b');
-
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = color;
             ctx.fillRect(0, 0, width, height);
 
             return ctx;
@@ -57,4 +62,4 @@ fabric.Image.filters.Toaster = fabric.util.createClass(fabric.Image.filters.Base
     }
 );
 
-fabric.Image.filters.Toaster.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+fabric.Image.filters.Moon.fromObject = fabric.Image.filters.BaseFilter.fromObject;
