@@ -160,7 +160,7 @@ class Invoker {
 
         return this._invokeExecution(command)
             .then(value => {
-                this.clearRedoStack();
+                !this.isSilent && this.clearRedoStack();
 
                 return value;
             });
