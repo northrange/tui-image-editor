@@ -160,7 +160,7 @@ class Invoker {
 
         return this._invokeExecution(command)
             .then(value => {
-                if (!this.isSilent) {
+                if (!this._isSilent) {
                     this.clearRedoStack();
                 }
 
