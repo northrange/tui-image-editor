@@ -1329,6 +1329,15 @@ class ImageEditor {
     }
 
     /**
+     * Gets the filter options of the provided filter type.
+     * @param {string} type - Filter type
+     * @returns {Object} filter options or null if there is no that filter
+     */
+    getFilterOptions(type) {
+        return this._graphics.getFilterOptions(type);
+    }
+
+    /**
      * Remove filter on canvas image
      * @param {string} type - Filter type
      * @returns {Promise<FilterResult, ErrorMsg>}

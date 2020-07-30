@@ -310,6 +310,7 @@ export declare class ImageEditor {
     public getObjectProperties(id: number, keys: string | string[] | IGraphicObjectProps): IGraphicObjectProps;
     public getStraightenedRect(): IRectConfig;
     public hasFilter(type: string): boolean;
+    public getFilterOptions(type: string): any;
     public isEmptyRedoStack(): boolean;
     public isEmptyUndoStack(): boolean;
     public loadImageFromFile(imgFile: File, imageName?: string): Promise<ICropResolveObject>;

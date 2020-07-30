@@ -739,6 +739,17 @@ class Graphics {
     }
 
     /**
+     * Gets the filter options of the provided filter type.
+     * @param {string} type - Filter type
+     * @returns {Object} filter options or null if there is no that filter
+     */
+    getFilterOptions(type) {
+        return this.hasFilter(type)
+            ? this.getComponent(components.FILTER).getOptions(type)
+            : null;
+    }
+
+    /**
      * Set selection style of fabric object by init option
      * @param {Object} styles - Selection styles
      */
