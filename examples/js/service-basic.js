@@ -840,7 +840,9 @@ $inputCheckSepia.on('change', function() {
 });
 
 $inputCheckBlur.on('change', function() {
-    applyOrRemoveFilter(this.checked, 'Blur', null);
+    applyOrRemoveFilter(this.checked, 'Blur', {
+        blur: 1 / 9
+    });
 });
 
 $inputCheckSharpen.on('change', function() {
