@@ -7,7 +7,7 @@ import {blend, softLight} from './functions';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Perpetua = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Perpetua',
 
         texture: document.createElement('canvas'),

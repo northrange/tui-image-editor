@@ -874,13 +874,13 @@ $inputRangeRemoveWhiteDistance.on('change', function() {
 
 $inputCheckBrightness.on('change', function() {
     applyOrRemoveFilter(this.checked, 'brightness', {
-        brightness: parseInt($inputRangeBrightnessValue.val(), 10)
+        brightness: parseInt($inputRangeBrightnessValue.val(), 10) / 255
     });
 });
 
 $inputRangeBrightnessValue.on('change', function() {
     applyOrRemoveFilter($inputCheckBrightness.is(':checked'), 'brightness', {
-        brightness: parseInt(this.value, 10)
+        brightness: parseInt(this.value, 10) / 255
     });
 });
 
@@ -967,19 +967,21 @@ $inputCheckWalden.on('change', function() {
 $inputCheckTint.on('change', function() {
     applyOrRemoveFilter(this.checked, 'tint', {
         color: tintColorpicker.getColor(),
-        opacity: parseFloat($inputRangeTintOpacityValue.val())
+        alpha: parseFloat($inputRangeTintOpacityValue.val())
     });
 });
 
 tintColorpicker.on('selectColor', function(e) {
     applyOrRemoveFilter($inputCheckTint.is(':checked'), 'tint', {
-        color: e.color
+        color: e.color,
+        alpha: parseFloat($inputRangeTintOpacityValue.val())
     });
 });
 
 $inputRangeTintOpacityValue.on('change', function() {
     applyOrRemoveFilter($inputCheckTint.is(':checked'), 'tint', {
-        opacity: parseFloat($inputRangeTintOpacityValue.val())
+        color: tintColorpicker.getColor(),
+        alpha: parseFloat($inputRangeTintOpacityValue.val())
     });
 });
 

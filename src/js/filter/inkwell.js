@@ -6,7 +6,7 @@ import fabric from 'fabric';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Inkwell = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Inkwell',
 
         contrastFilter: new fabric.Image.filters.Contrast({

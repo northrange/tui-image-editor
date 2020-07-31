@@ -7,7 +7,7 @@ import {blend, overlay, colorDodge} from './functions';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Kelvin = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Kelvin',
 
         texture: document.createElement('canvas'),

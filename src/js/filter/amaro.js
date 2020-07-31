@@ -6,7 +6,7 @@ import fabric from 'fabric';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Amaro = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Amaro',
 
         hueRotationFilter: new fabric.Image.filters.HueRotation({

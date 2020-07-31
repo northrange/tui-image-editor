@@ -7,7 +7,7 @@ import {blend, overlay} from './functions';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Brooklyn = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Brooklyn',
 
         brightnessFilter: new fabric.Image.filters.Brightness({

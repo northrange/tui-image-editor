@@ -7,7 +7,7 @@ import {blend, colorDodge} from './functions';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Lark = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Lark',
 
         blendFilter: new fabric.Image.filters.BlendColor({

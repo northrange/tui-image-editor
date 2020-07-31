@@ -14,6 +14,7 @@ import './js/filter/lofi';
 import './js/filter/moon';
 import './js/filter/nashville';
 import './js/filter/perpetua';
+import './js/filter/tint';
 import './js/filter/toaster';
 import './js/filter/walden';
 

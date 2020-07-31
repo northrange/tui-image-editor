@@ -6,7 +6,7 @@ import fabric from 'fabric';
 
 /* eslint-disable no-mixed-operators */
 fabric.Image.filters.Nashville = fabric.util.createClass(fabric.Image.filters.BaseFilter,
-    /** @lends fabric.Image.filters.Blend.prototype */ {
+    /** @lends fabric.Image.filters.BaseFilter.prototype */ {
         type: 'Nashville',
 
         lightenBlendFilter: new fabric.Image.filters.BlendColor({
