@@ -3,6 +3,7 @@
  * @author NHN Ent. FE Development Team <dl_javascript@nhn.com>
  * @fileoverview
  */
+
 /* eslint-disable vars-on-top,no-var,strict,prefer-template,prefer-arrow-callback,prefer-destructuring,object-shorthand,require-jsdoc,complexity,prefer-const,no-unused-vars */
 var supportingFileAPI = !!(window.File && window.FileList && window.FileReader);
 var rImageType = /data:(image\/.+);base64,/;
@@ -413,6 +414,7 @@ $btnCrop.on('click', function() {
     imageEditor.startDrawingMode('CROPPER');
     $displayingSubMenu.hide();
     $displayingSubMenu = $cropSubMenu.show();
+    imageEditor.setCropzoneRect(2.5, false, 1);
 });
 
 $btnFlip.on('click', function() {
@@ -1035,7 +1037,8 @@ $inputRangeColorFilterValue.on('change', function() {
 imageEditor.loadImageFromURL('img/sampleImage3.jpg', 'SampleImage').then(function(sizeValue) {
     console.log(sizeValue);
     imageEditor.clearUndoStack();
-});
+})
+
 
 // IE9 Unselectable
 $('.menu').on('selectstart', function() {

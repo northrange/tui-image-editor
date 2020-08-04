@@ -328,7 +328,7 @@ export declare class ImageEditor {
     public getAngle(): number;
     public setAngle(angle: number, isSilent?: boolean): Promise<number>;
     public setBrush(option: IBrushOptions): void;
-    public setCropzoneRect(mode?: number, fixAspect?: boolean): void;
+    public setCropzoneRect(mode?: number, fixAspect?: boolean, sizeInPercent?: number): void;
     public updateCropzoneRect(aspectRatio?: number, fixAspect?: boolean): void;
     public setDrawingShape(type: string, options?: IShapeOptions): void;
     public setObjectPosition(id: number, posInfo?: IPositionConfig): Promise<void>;

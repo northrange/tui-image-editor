@@ -330,10 +330,11 @@ class Cropper extends Component {
      * Set a cropzone rectangle
      * @param {number} [aspectRatio] - aspect ratio to use for the cropzone rect
      * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
+     * @param {number} [sizeInPercent] - the size of the cropzone in percentage of the original image
      */
-    setCropzoneRect(aspectRatio, fixAspect) {
+    setCropzoneRect(aspectRatio, fixAspect, sizeInPercent) {
         this._renderCropzoneRect(aspectRatio, fixAspect, ar => ar
-            ? this._getPresetPropertiesForCropSize(ar, fixAspect)
+            ? this._getPresetPropertiesForCropSize(ar, fixAspect, sizeInPercent || 0.5)
             : DEFAULT_OPTION);
     }
 
@@ -380,10 +381,11 @@ class Cropper extends Component {
      * get a cropzone square info
      * @param {number} aspectRatio - preset ratio
      * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
+     * @param {number} [sizeInPercent] - the size of the cropzone in percentage of the original image
      * @returns {{presetRatio: number, left: number, top: number, width: number, height: number}}
      * @private
      */
-    _getPresetPropertiesForCropSize(aspectRatio, fixAspect) {
+    _getPresetPropertiesForCropSize(aspectRatio, fixAspect, sizeInPercent) {
         const canvas = this.getCanvas();
         const originalWidth = canvas.getWidth();
         const originalHeight = canvas.getHeight();
@@ -402,8 +404,8 @@ class Cropper extends Component {
 
         // Set cropzone width and height only to 50% of the canvas so that users immediately recognize the cropzone rect, which is not as
         // easily seen when the rect stretches to the canvas edges.
-        width /= 2;
-        height /= 2;
+        width *= sizeInPercent;
+        height *= sizeInPercent;
 
         return {
             presetRatio: fixAspect ? aspectRatio : null,

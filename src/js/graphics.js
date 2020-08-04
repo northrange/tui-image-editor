@@ -629,9 +629,10 @@ class Graphics {
      * Sets the cropped rect on the image, using the maximally available amount of space.
      * @param {number} [aspectRatio] cropzone rect aspect ratio
      * @param {boolean} [fixAspect] - whether or not to fix the aspect ratio
+     * @param {number} [sizeInPercent] - the size of the cropzone in percentage (0-1) of the original image
      */
-    setCropzoneRect(aspectRatio, fixAspect) {
-        this.getComponent(components.CROPPER).setCropzoneRect(aspectRatio || 1, fixAspect);
+    setCropzoneRect(aspectRatio, fixAspect, sizeInPercent) {
+        this.getComponent(components.CROPPER).setCropzoneRect(aspectRatio || 1, fixAspect, sizeInPercent);
     }
 
     /**
