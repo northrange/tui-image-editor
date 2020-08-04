@@ -337,6 +337,7 @@ export declare class ImageEditor {
     public startDrawingMode(mode: string, option?: {width?: number, color?: string}): boolean;
     public stopDrawingMode(): void;
     public toDataURL(options?: IToDataURLOptions): string;
+    public toPreview(aspectRatio: number, width: number): string;
     public undo(): Promise<any>;
     public preventObjectDeletion(prevent: boolean): void;
     public on(eventName: string, handler: (...args: any[]) => void): void;

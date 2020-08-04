@@ -1401,6 +1401,19 @@ class ImageEditor {
         return this._graphics.toDataURL(options);
     }
 
+    toPreview(aspectRatio, width) {
+        const canvasDimension = this.getCanvasSize();
+        this.startDrawingMode('CROPPER');
+        this.setCropzoneRect(aspectRatio, false, 1);
+
+        const cropzoneRect = this.getCropzoneRect();
+        const height = width / aspectRatio;
+        const multiplier = Math.max(width / cropzoneRect.width, height / cropzoneRect.height);
+        this.stopDrawingMode();
+
+        return this.toDataURL(Object.assign({}, cropzoneRect, {multiplier}));
+    }
+
     /**
      * Gets the image instance.
      * @returns {fabric.Image} image instance

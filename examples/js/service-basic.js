@@ -1037,7 +1037,7 @@ $inputRangeColorFilterValue.on('change', function() {
 imageEditor.loadImageFromURL('img/sampleImage3.jpg', 'SampleImage').then(function(sizeValue) {
     console.log(sizeValue);
     imageEditor.clearUndoStack();
-})
+});
 
 
 // IE9 Unselectable
