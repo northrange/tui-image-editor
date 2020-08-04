@@ -1402,7 +1402,6 @@ class ImageEditor {
     }
 
     toPreview(aspectRatio, width) {
-        const canvasDimension = this.getCanvasSize();
         this.startDrawingMode('CROPPER');
         this.setCropzoneRect(aspectRatio, false, 1);
 
